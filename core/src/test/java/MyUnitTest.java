@@ -3,6 +3,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 //Test to check if CI works:
+//Failing test will cause CI build to fail:
 public class MyUnitTest {
 
 
