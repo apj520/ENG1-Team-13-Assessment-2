@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.tomgrill.gdxtesting.CollegeTests" tests="1" skipped="0" failures="1" errors="0" timestamp="2022-03-12T02:00:24" hostname="DESKTOP-5CQ932P" time="0.062">
+  <properties/>
+  <testcase name="testCollegeDead" classname="de.tomgrill.gdxtesting.CollegeTests" time="0.062">
+    <failure message="java.lang.NullPointerException: Cannot invoke &quot;com.badlogic.gdx.graphics.GL20.glCreateShader(int)&quot; because &quot;gl&quot; is null" type="java.lang.NullPointerException">java.lang.NullPointerException: Cannot invoke &quot;com.badlogic.gdx.graphics.GL20.glCreateShader(int)&quot; because &quot;gl&quot; is null
+	at com.badlogic.gdx.graphics.glutils.ShaderProgram.loadShader(ShaderProgram.java:204)
+	at com.badlogic.gdx.graphics.glutils.ShaderProgram.compileShaders(ShaderProgram.java:183)
+	at com.badlogic.gdx.graphics.glutils.ShaderProgram.&lt;init&gt;(ShaderProgram.java:166)
+	at com.badlogic.gdx.graphics.g2d.SpriteBatch.createDefaultShader(SpriteBatch.java:163)
+	at com.badlogic.gdx.graphics.g2d.SpriteBatch.&lt;init&gt;(SpriteBatch.java:127)
+	at com.badlogic.gdx.graphics.g2d.SpriteBatch.&lt;init&gt;(SpriteBatch.java:81)
+	at com.mygdx.game.Managers.RenderingManager.Initialize(RenderingManager.java:27)
+	at com.mygdx.game.Managers.RenderingManager.tryInit(RenderingManager.java:64)
+	at com.mygdx.game.Managers.RenderingManager.addItem(RenderingManager.java:57)
+	at com.mygdx.game.Components.Renderable.&lt;init&gt;(Renderable.java:25)
+	at com.mygdx.game.Components.Renderable.&lt;init&gt;(Renderable.java:48)
+	at com.mygdx.game.Entitys.CannonBall.&lt;init&gt;(CannonBall.java:33)
+	at com.mygdx.game.Managers.GameManager.Initialize(GameManager.java:48)
+	at com.mygdx.game.Managers.GameManager.tryInit(GameManager.java:148)
+	at com.mygdx.game.Managers.GameManager.getSettings(GameManager.java:163)
+	at com.mygdx.game.Entitys.College.spawn(College.java:55)
+	at de.tomgrill.gdxtesting.CollegeTests.testCollegeDead(CollegeTests.java:34)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at de.tomgrill.gdxtesting.GdxTestRunner.render(GdxTestRunner.java:59)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication.mainLoop(HeadlessApplication.java:128)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication$1.run(HeadlessApplication.java:93)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

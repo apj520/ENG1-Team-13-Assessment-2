@@ -64,7 +64,8 @@ public class Building extends Entity implements CollisionCallBack {
     /**
      * Replace the building with ruins and mark as broken.
      */
-    private void destroy() {
+    /*Roscoe - changed below modifier for testing accessibility*/
+    public void destroy() {
         if (isFlag) {
             return;
         }

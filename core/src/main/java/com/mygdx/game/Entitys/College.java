@@ -15,7 +15,8 @@ import java.util.ArrayList;
  */
 public class College extends Entity {
     private static ArrayList<String> buildingNames;
-    private final ArrayList<Building> buildings;
+    /*Roscoe - changed below modifier to protected in order to make accessible for testing*/
+    public final ArrayList<Building> buildings;
 
     public College() {
         super();
@@ -49,7 +50,8 @@ public class College extends Entity {
      *
      * @param colour used to pull the appropriate flag sprite
      */
-    private void spawn(String colour) {
+    /*Roscoe - changed below modifier to public to make accessible for testing*/
+    public void spawn(String colour) {
         JsonValue collegeSettings = GameManager.getSettings().get("college");
         float radius = collegeSettings.getFloat("spawnRadius");
         // radius = Utilities.tilesToDistance(radius) * BUILDING_SCALE;
