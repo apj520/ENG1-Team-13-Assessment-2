@@ -13,7 +13,7 @@ import java.util.Queue;
  * @param <T> Data type to store
  */
 public class QueueFIFO<T> implements Queue<T> {
-    private final ArrayList<T> data;
+    private ArrayList<T> data; //no longer final for testing
     private int topIndex;
 
     /**
@@ -24,6 +24,19 @@ public class QueueFIFO<T> implements Queue<T> {
         data = new ArrayList<>();
     }
 
+    //Testing requirements, implemented in assessment 2
+    public void set(ArrayList<T> setThis) {
+        data = setThis;
+        topIndex = size() -1;
+    }
+
+    public ArrayList<T> get() {
+        return data; }
+
+    public int getI() {
+        return topIndex;
+    }
+    //End
 
     @Override
     public int size() {

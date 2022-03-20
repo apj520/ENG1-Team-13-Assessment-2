@@ -11,8 +11,8 @@ import com.mygdx.game.Faction;
 import com.mygdx.utils.QueueFIFO;
 import com.mygdx.utils.Utilities;
 
-import java.util.ArrayList;
-
+import java.util.ArrayList;//
+//TODO tryinit has been commented out
 /**
  * Responsible for creating most entity's associated with the game. Also the cached chest and cannonballs
  */
@@ -101,7 +101,7 @@ public final class GameManager {
      * Creates player that belongs the faction with id 1
      */
     public static void CreatePlayer() {
-        tryInit();
+       // tryInit();
         Player p = new Player();
         p.setFaction(1);
         ships.add(p);
@@ -114,7 +114,7 @@ public final class GameManager {
      * @return the created ship
      */
     public static NPCShip CreateNPCShip(int factionId) {
-        tryInit();
+       // tryInit();
         NPCShip e = new NPCShip();
         e.setFaction(factionId);
         ships.add(e);
@@ -127,7 +127,7 @@ public final class GameManager {
      * @param mapId resource id
      */
     public static void CreateWorldMap(int mapId) {
-        tryInit();
+       // tryInit();
         WorldMap map = new WorldMap(mapId);
         mapGraph = new TileMapGraph(map.getTileMap());
     }
@@ -138,7 +138,7 @@ public final class GameManager {
      * @param factionId desired faction
      */
     public static void CreateCollege(int factionId) {
-        tryInit();
+        //tryInit();
         College c = new College(factionId);
         colleges.add(c);
     }
@@ -150,7 +150,7 @@ public final class GameManager {
     }
 
     public static Faction getFaction(int factionId) {
-        tryInit();
+      //  tryInit();
         return factions.get(factionId - 1);
     }
 
@@ -165,7 +165,7 @@ public final class GameManager {
     }
 
     public static College getCollege(int factionId) {
-        tryInit();
+      //  tryInit();
         return colleges.get(factionId - 1);
     }
 

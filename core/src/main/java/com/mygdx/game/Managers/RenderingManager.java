@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Components.Component;
 import com.mygdx.game.Entitys.Building;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
 
@@ -54,7 +55,16 @@ public final class RenderingManager {
      * @param layer the layer that it will be rendered in
      */
     public static void addItem(Component item, RenderLayer layer) {
-        tryInit();
+        // tryInit(); TODO:
+        if (initialized == false){
+            renderItems = new ArrayList<>();
+
+            layers = new ArrayList<>(RenderLayer.values().length);
+
+            for (int i = 0; i < RenderLayer.values().length; i++) {
+                layers.add(new ArrayList<>());
+            }
+        }
         renderItems.add(item);
         layers.get(layer.ordinal()).add(renderItems.size() - 1);
     }

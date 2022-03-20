@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.game.Managers.GameManager;
 import com.mygdx.game.Managers.ResourceManager;
 import com.mygdx.game.UI.EndScreen;
 import com.mygdx.game.UI.GameScreen;
@@ -19,21 +20,20 @@ public class PirateGame extends Game {
     public EndScreen end;
     public Stage stage;
     public Skin skin;
+    private static int id_ship;
+    private static int id_map;
+    private static int atlas_id;
+    private static int extras_id;
+    private static int buildings_id;
 
     /**
      * Create instances of game stage and UI screens.
      */
     @Override
     public void create() {
-        // load resources
-        int id_ship = ResourceManager.addTexture("ship.png");
-        int id_map = ResourceManager.addTileMap("Map.tmx");
-        int atlas_id = ResourceManager.addTextureAtlas("Boats.txt");
-        int extras_id = ResourceManager.addTextureAtlas("UISkin/skin.atlas");
-        int buildings_id = ResourceManager.addTextureAtlas("Buildings.txt");
-        ResourceManager.addTexture("menuBG.jpg");
-        ResourceManager.addTexture("Chest.png");
-        ResourceManager.loadAssets();
+        ResourceManager.Initialize();
+        loadResources(); // TODO
+
         // cant load any more resources after this point (just functionally I choose not to implement)
         stage = new Stage(new ScreenViewport());
         createSkin();
@@ -41,8 +41,19 @@ public class PirateGame extends Game {
         game = new GameScreen(this, id_map);
         end = new EndScreen(this);
         setScreen(menu);
-    }
 
+        GameManager.Initialize();
+    }
+    public static void loadResources(){
+        id_ship = ResourceManager.addTexture("ship.png");
+        id_map = ResourceManager.addTileMap("Map.tmx");
+        atlas_id = ResourceManager.addTextureAtlas("Boats.txt");
+        extras_id = ResourceManager.addTextureAtlas("UISkin/skin.atlas");
+        buildings_id = ResourceManager.addTextureAtlas("Buildings.txt");
+        ResourceManager.addTexture("menuBG.jpg");
+        ResourceManager.addTexture("Chest.png");
+        ResourceManager.loadAssets();
+    }
     /**
      * Clean up prevent memory leeks
      */

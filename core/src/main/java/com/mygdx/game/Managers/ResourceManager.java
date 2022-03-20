@@ -25,9 +25,9 @@ public final class ResourceManager {
     private static HashMap<String, FreeTypeFontGenerator> fontGenerators;
     private static HashMap<String, BitmapFont> fonts;
 
-    /**
-     * The equivalent to a constructor
-     */
+        /**
+         * The equivalent to a constructor
+         */
     public static void Initialize() {
         if (initialized) {
             return;
@@ -309,5 +309,14 @@ public final class ResourceManager {
         if (!initialized) {
             Initialize();
         }
+    }
+
+    /**
+     * Addded for Assesment 2
+     * Uninitialises the Resource Manager to allow it to be started from scratch for testing
+     * TODO useful for RESTARING game?
+     */
+    public static void uninitialize(){
+        initialized = false;
     }
 }
