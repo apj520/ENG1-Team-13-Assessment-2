@@ -1,5 +1,6 @@
-[![Java CI with Gradle](https://github.com/apj520/ENG1-Team-13-Assessment-2/actions/workflows/gradleBuild.yml/badge.svg?branch=ayman_CI_branch)](https://github.com/apj520/ENG1-Team-13-Assessment-2/actions/workflows/gradleBuild.yml)
+[![Java CI with Gradle](https://github.com/apj520/ENG1-Team-13-Assessment-2/actions/workflows/gradleBuild.yml/badge.svg?branch=testing_Adam)](https://github.com/apj520/ENG1-Team-13-Assessment-2/actions/workflows/gradleBuild.yml)
 
+[![Lint Code Base](https://github.com/apj520/ENG1-Team-13-Assessment-2/actions/workflows/linter.yml/badge.svg?branch=testing_Adam&event=status)](https://github.com/apj520/ENG1-Team-13-Assessment-2/actions/workflows/linter.yml)
 
 # How-Hard-Can-It-Be
 
