@@ -38,7 +38,8 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Test report
-        path: core/src/test
+        #path: core/src/test
+        path: core/src/main/java/com/mygdx/utils
       #run: mvn -B package --file mavenTest/pom.xml # mvn -B package --file pom.xml
       
     #- uses: actions/upload-artifact@v2
