@@ -33,12 +33,14 @@ jobs:
     #  with:
     #   arguments: build
     - name: Build with Gradle
-      run: ./gradlew build #--no-daemon
+      run: ./gradlew build --no-daemon
     - name: Archive test report
       uses: actions/upload-artifact@v2
       with:
         name: Test report
-        path: core/src/test
+        path: core/src/main/java/com/mygdx/utils/QueueFIFO.java
+        #path: core/src/test
+        #path: core/src/main/java/com/mygdx/utils
       #run: mvn -B package --file mavenTest/pom.xml # mvn -B package --file pom.xml
       
     #- uses: actions/upload-artifact@v2
