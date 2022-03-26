@@ -15,8 +15,7 @@ import java.util.ArrayList;
  */
 public class College extends Entity {
     private static ArrayList<String> buildingNames;
-    /*Roscoe - changed below modifier to protected in order to make accessible for testing*/
-    public final ArrayList<Building> buildings;
+    private final ArrayList<Building> buildings;
 
     public College() {
         super();

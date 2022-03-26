@@ -26,6 +26,8 @@ public class PirateGame extends Game {
     private static int extras_id;
     private static int buildings_id;
 
+    private static int powerups_id;
+
     /**
      * Create instances of game stage and UI screens.
      */
@@ -50,9 +52,16 @@ public class PirateGame extends Game {
         atlas_id = ResourceManager.addTextureAtlas("Boats.txt");
         extras_id = ResourceManager.addTextureAtlas("UISkin/skin.atlas");
         buildings_id = ResourceManager.addTextureAtlas("Buildings.txt");
+
+        //Roscoe - added textureAtlas for sprites
+        powerups_id = ResourceManager.addTextureAtlas("powerups.txt");
+
+
         ResourceManager.addTexture("menuBG.jpg");
         ResourceManager.addTexture("Chest.png");
         ResourceManager.loadAssets();
+
+
     }
     /**
      * Clean up prevent memory leeks
