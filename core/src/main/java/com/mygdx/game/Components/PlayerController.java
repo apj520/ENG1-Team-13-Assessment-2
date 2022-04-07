@@ -33,6 +33,15 @@ public class PlayerController extends Component {
         this.speed = speed;
     }
 
+    //Roscoe - added methods to get/set the speed
+    public float getSpeed() {
+        return this.speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
     /**
      * Reads keyboard and mouse inputs, moving and shooting as required.
      */

@@ -1,10 +1,10 @@
 package com.mygdx.game.Entitys;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Components.Renderable;
-import com.mygdx.game.Components.RigidBody;
-import com.mygdx.game.Components.Transform;
+import com.mygdx.game.Components.*;
+import com.mygdx.game.Managers.GameManager;
 import com.mygdx.game.Managers.RenderLayer;
 import com.mygdx.game.Managers.ResourceManager;
 import com.mygdx.game.Physics.CollisionCallBack;
@@ -13,36 +13,67 @@ import com.mygdx.game.Physics.PhysicsBodyType;
 
 public class PowerUp extends Entity implements CollisionCallBack {
 
-    private String powerUpName;
     private static int atlas_id;
     private boolean isFlag;
 
-    public PowerUp() {
-        super(2);
+    private String powerUpName;
+    private boolean inEffect;
+    private float timer;
+
+    public PowerUp(String name) {
+        super();
+        this.powerUpName = name;
         Transform t = new Transform();
         isFlag = false;
         atlas_id = ResourceManager.getId("powerups.txt");
-        Renderable r = new Renderable(atlas_id, "doublepoints", RenderLayer.Transparent);
+        Renderable r = new Renderable(atlas_id, powerUpName, RenderLayer.Transparent);
         addComponents(t,r);
+        Sprite s = ResourceManager.getSprite(atlas_id, name);
+        r.setTexture(s);
+        RigidBody rb = new RigidBody(PhysicsBodyType.Static,r,t);
+        rb.setCallback(this);
+        addComponent(rb);
+    }
+
+    public void powerUpAffect(String name) {
+        timer = 0;
+        inEffect = true;
+
+        if (name == "double_plunder") {
+            GameManager.getPlayer().getComponent(Pirate.class).switchDP();
+        } else if (name == "FFR_bubble") {
+            GameManager.getPlayer().getComponent(Pirate.class).switchDF();
+        } else if (name == "health_regen") {
+            GameManager.getPlayer().getComponent(Pirate.class).resetHealth();
+        } else if (name == "immunity") {
+            GameManager.getPlayer().getComponent(Pirate.class).switchImmune();
+        } else if (name == "speed") {
+            GameManager.getPlayer().updateSpeed(1.3f);
+        }
+    }
+
+    public void restore(String name) {
+        if (name == "double_plunder") {
+            GameManager.getPlayer().getComponent(Pirate.class).switchDP();
+        } else if (name == "FFR_bubble") {
+            GameManager.getPlayer().getComponent(Pirate.class).switchDF();
+        } else if (name == "health_regen") {
+
+        } else if (name == "immunity") {
+            GameManager.getPlayer().getComponent(Pirate.class).switchImmune();
+        } else if (name == "speed") {
+            GameManager.getPlayer().restoreSpeed();
+        }
     }
 
     /**
-     * Creates a power-up with the given name at the specified location.
+     * Gets the name of the power up as a String
      *
-     * @param pos  2D position vector
-     * @param name name of power-up
+     * @return name of power up
      */
-    public void create(Vector2 pos, String name) {
-        Sprite s = ResourceManager.getSprite(atlas_id, name);
-        Renderable r = getComponent(Renderable.class);
-        r.setTexture(s);
-        getComponent(Transform.class).setPosition(pos);
-        powerUpName = name;
 
-        RigidBody rb = new RigidBody(PhysicsBodyType.Static, r, getComponent(Transform.class));
-        rb.setCallback(this);
-        addComponent(rb);
-
+    public String getPowerUpName() {
+        return this.powerUpName;
     }
 
     /**
@@ -69,6 +100,13 @@ public class PowerUp extends Entity implements CollisionCallBack {
     public void update() {
         super.update();
         removeOnCollision();
+
+        if (inEffect) {
+            timer += Gdx.graphics.getDeltaTime();
+            if (timer >= 20f) {
+                restore(powerUpName);
+            }
+        }
     }
 
     @Override
@@ -83,7 +121,16 @@ public class PowerUp extends Entity implements CollisionCallBack {
 
     @Override
     public void EnterTrigger(CollisionInfo info) {
+        if (info.a instanceof Player) {
+            // the ball if from the same faction
+            /*if(Objects.equals(b.getShooter().getComponent(Pirate.class).getFaction().getName(),
+                    getComponent(Pirate.class).getFaction().getName())) {
+                return;
+            }*/
 
+            powerUpAffect(powerUpName);
+            kill();
+        }
     }
 
     @Override

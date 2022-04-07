@@ -12,6 +12,7 @@ import com.mygdx.utils.QueueFIFO;
 import com.mygdx.utils.Utilities;
 
 import java.util.ArrayList;//
+import java.util.List;
 //TODO tryinit has been commented out
 /**
  * Responsible for creating most entity's associated with the game. Also the cached chest and cannonballs
@@ -21,6 +22,9 @@ public final class GameManager {
     private static ArrayList<Faction> factions;
     private static ArrayList<Ship> ships;
     private static ArrayList<College> colleges;
+
+    //Roscoe - instantiates list of power-ups;
+    private static ArrayList<PowerUp>  powerups;
 
     private static final int cacheSize = 20;
     private static ArrayList<CannonBall> ballCache;
@@ -43,6 +47,9 @@ public final class GameManager {
         ships = new ArrayList<>();
         ballCache = new ArrayList<>(cacheSize);
         colleges = new ArrayList<>();
+
+        //Roscoe - initialises list of power-ups
+        powerups = new ArrayList<>();
 
         for (int i = 0; i < cacheSize; i++) {
             ballCache.add(new CannonBall());
@@ -95,6 +102,7 @@ public final class GameManager {
                 s.getComponent(Transform.class).setPosition(getFaction(i + 1).getSpawnPos());
             }
         }
+        CreatePowerUps();
     }
 
     /**
@@ -141,6 +149,24 @@ public final class GameManager {
         //tryInit();
         College c = new College(factionId);
         colleges.add(c);
+    }
+
+    //Roscoe: create power-ups method
+    /**
+     * Creates 5 unique powerups
+     */
+    public static void CreatePowerUps() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("double_plunder");
+        list.add("FFR_bubble");
+        list.add("health_regen");
+        list.add("immunity");
+        list.add("speed");
+        for (int i = 0; i <= 4; i++) {
+            PowerUp p = new PowerUp(list.get(i));
+            p.getComponent(Transform.class).setPosition(805+(i*5),805+(i*5));
+            powerups.add(p);
+        }
     }
 
     private static void tryInit() {

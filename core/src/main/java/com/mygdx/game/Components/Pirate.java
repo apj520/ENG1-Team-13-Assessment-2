@@ -18,6 +18,11 @@ public class Pirate extends Component {
     private int ammo;
     private final int attackDmg;
 
+    //Roscoe - added flags for immunity and double fire power-ups, added double plunder flag
+    private boolean isImmune;
+    private boolean doubleFire;
+    private boolean dpFlag;
+
     /**
      * The enemy that is being targeted by the AI.
      */
@@ -34,6 +39,11 @@ public class Pirate extends Component {
         health = starting.getInt("health");
         attackDmg = starting.getInt("damage");
         ammo = starting.getInt("ammo");
+
+        //Roscoe - initialised power-up flags
+        isImmune = false;
+        doubleFire = false;
+        dpFlag = false;
     }
 
     public void addTarget(Ship target) {
@@ -45,7 +55,19 @@ public class Pirate extends Component {
     }
 
     public void addPlunder(int money) {
-        plunder += money;
+        if (dpFlag) {
+            plunder += money*2;
+        } else {
+            plunder += money;
+        }
+    }
+
+    public void switchDP() {
+        if (dpFlag) {
+            dpFlag = false;
+        } else {
+            dpFlag = true;
+        }
     }
 
     public Faction getFaction() {
@@ -56,14 +78,31 @@ public class Pirate extends Component {
         this.factionId = factionId;
     }
 
+    //Roscoe - modified to include immunity possibility
     public void takeDamage(float dmg) {
-        health -= dmg;
-        if (health <= 0) {
-            health = 0;
-            isAlive = false;
+        if (!isImmune) {
+            health -= dmg;
+            if (health <= 0) {
+                health = 0;
+                isAlive = false;
+            }
         }
     }
 
+    //Roscoe - method to switch immunity on/off
+    public void switchImmune() {
+        if (isImmune) {
+            isImmune = false;
+        } else {isImmune = true;}
+    }
+
+    public void switchDF() {
+        if (doubleFire) {
+            doubleFire = false;
+        } else {doubleFire = true;}
+    }
+
+    //Roscoe - modified shoot function to include power-up functionality (x2 fire)
     /**
      * Will shoot a cannonball assigning this.parent as the cannonball's parent (must be Ship atm)
      *
@@ -73,8 +112,17 @@ public class Pirate extends Component {
         if (ammo == 0) {
             return;
         }
-        ammo--;
-        GameManager.shoot((Ship) parent, dir);
+        else if (!doubleFire) {
+            ammo--;
+            GameManager.shoot((Ship) parent, dir);
+        } else {
+            if (ammo < 2) {
+                GameManager.shoot((Ship) parent, dir);
+            } else {
+                GameManager.shoot((Ship) parent, dir.rotateDeg(358));
+                GameManager.shoot((Ship) parent, dir.rotateDeg(2));
+            }
+        }
     }
 
     /**
@@ -88,6 +136,15 @@ public class Pirate extends Component {
 
     public int getHealth() {
         return health;
+    }
+
+    //Roscoe - added setHealth and resetHealth methods for power-up functionality
+    public void setHealth(int val) {
+        health = val;
+    }
+
+    public void resetHealth() {
+        health = GameManager.getSettings().get("starting").getInt("health");
     }
 
     /**

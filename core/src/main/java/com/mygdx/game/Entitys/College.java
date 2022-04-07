@@ -49,8 +49,7 @@ public class College extends Entity {
      *
      * @param colour used to pull the appropriate flag sprite
      */
-    /*Roscoe - changed below modifier to public to make accessible for testing*/
-    public void spawn(String colour) {
+    private void spawn(String colour) {
         JsonValue collegeSettings = GameManager.getSettings().get("college");
         float radius = collegeSettings.getFloat("spawnRadius");
         // radius = Utilities.tilesToDistance(radius) * BUILDING_SCALE;

@@ -67,6 +67,7 @@ public class Ship extends Entity implements CollisionCallBack {
         return Utilities.tilesToDistance(GameManager.getSettings().get("starting").getFloat("attackRange_tiles"));
     }
 
+    //Roscoe - edited plunder method to include double plunder power up effect and
     public void plunder(int money) {
         getComponent(Pirate.class).addPlunder(money);
     }
