@@ -39,7 +39,7 @@ jobs:
       with:
         name: Test report
         #path: core/src/main/java/com/mygdx/utils/QueueFIFO.java
-        path: tests/src/de/tomgrill/gdxtesting/Utils/QueueFIFOTest.java 
+        path: tests/src/de/tomgrill/gdxtesting/
         #path: core/src/test
         #path: core/src/main/java/com/mygdx/utils
       #run: mvn -B package --file mavenTest/pom.xml # mvn -B package --file pom.xml
