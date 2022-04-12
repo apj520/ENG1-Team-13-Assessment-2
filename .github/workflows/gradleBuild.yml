@@ -43,11 +43,11 @@ jobs:
         #path: tests/src/de/tomgrill/gdxtesting/
         #path: core/src/main/java/com/mygdx/utils
       #run: mvn -B package --file mavenTest/pom.xml # mvn -B package --file pom.xml
-    - name: Publish Unit Test Results
+    - name: Publish Unit Test Results in UI
       uses: EnricoMi/publish-unit-test-result-action/composite@v1
       if: always()
       with:
-        files: "test-results/**/*.xml"
+        files: "tests/build/test-results/test/TEST-de.tomgrill.gdxtesting.CollegeTests.xml"
     #- uses: actions/upload-artifact@v2
     #  with:
     #   name: my-artifact
