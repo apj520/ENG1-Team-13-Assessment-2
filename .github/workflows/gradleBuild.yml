@@ -60,11 +60,14 @@ jobs:
         report_paths: '**/build/test-results/test/TEST-*.xml'
         
     - name: Monitor coverage
-      if: ! contains(github.event.pull_request.user.login, 'dependabot[bot]')
       uses: slavcodev/coverage-monitor-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         coverage_path: "tests/build/test-results/test/TEST-de.tomgrill.gdxtesting.CollegeTests.xml"
+        threshold_alert: 10
+        threshold_warning: 50
+        threshold_metric: "lines"
+        
         #coverage_path: "logs/clover.xml"
     #- uses: actions/upload-artifact@v2
     #  with:
