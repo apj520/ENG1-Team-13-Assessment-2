@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.Managers.GameManager;
+import com.mygdx.game.Managers.PhysicsManager;
+import com.mygdx.game.Managers.RenderingManager;
 import com.mygdx.game.Managers.ResourceManager;
 import com.mygdx.game.UI.EndScreen;
 import com.mygdx.game.UI.GameScreen;
@@ -37,14 +39,15 @@ public class PirateGame extends Game {
         loadResources(); // TODO
 
         // cant load any more resources after this point (just functionally I choose not to implement)
+        RenderingManager.Initialize();
         stage = new Stage(new ScreenViewport());
         createSkin();
         menu = new MenuScreen(this);
+        PhysicsManager.Initialize();
+        GameManager.Initialize();
         game = new GameScreen(this, id_map);
         end = new EndScreen(this);
         setScreen(menu);
-
-        GameManager.Initialize();
     }
     public static void loadResources(){
         id_ship = ResourceManager.addTexture("ship.png");

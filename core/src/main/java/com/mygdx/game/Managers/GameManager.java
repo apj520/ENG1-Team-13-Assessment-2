@@ -24,7 +24,8 @@ public final class GameManager {
     private static ArrayList<College> colleges;
 
     //Roscoe - instantiates list of power-ups;
-    private static ArrayList<PowerUp>  powerups;
+    private static ArrayList<PowerUp>  powerUps;
+    private static final int powerUpCacheSize = 5;
 
     private static final int cacheSize = 20;
     private static ArrayList<CannonBall> ballCache;
@@ -49,7 +50,11 @@ public final class GameManager {
         colleges = new ArrayList<>();
 
         //Roscoe - initialises list of power-ups
-        powerups = new ArrayList<>();
+        String[] powerUpNames = {"double_plunder","FFR_bubble","health_regen","immunity","speed"};
+        powerUps = new ArrayList<>(powerUpCacheSize);
+        for (int i = 0; i < powerUpCacheSize; i++) {
+            powerUps.add(new PowerUp(powerUpNames[i]));
+        }
 
         for (int i = 0; i < cacheSize; i++) {
             ballCache.add(new CannonBall());
@@ -89,6 +94,7 @@ public final class GameManager {
      */
     public static void SpawnGame(int mapId) {
         CreateWorldMap(mapId);
+        CreatePowerUps();
         CreatePlayer();
         final int cnt = settings.get("factionDefaults").getInt("shipCount");
         for (int i = 0; i < factions.size(); i++) {
@@ -98,11 +104,12 @@ public final class GameManager {
                 if (i == 0 && j > cnt - 2) {
                     break;
                 }
-                NPCShip s = CreateNPCShip(i + 1);
-                s.getComponent(Transform.class).setPosition(getFaction(i + 1).getSpawnPos());
+                if (i >= 0) {
+                    NPCShip s = CreateNPCShip(i + 1);
+                    s.getComponent(Transform.class).setPosition(getFaction(i + 1).getSpawnPos());
+                }
             }
         }
-        CreatePowerUps();
     }
 
     /**
@@ -156,16 +163,8 @@ public final class GameManager {
      * Creates 5 unique powerups
      */
     public static void CreatePowerUps() {
-        ArrayList<String> list = new ArrayList<>();
-        list.add("double_plunder");
-        list.add("FFR_bubble");
-        list.add("health_regen");
-        list.add("immunity");
-        list.add("speed");
-        for (int i = 0; i <= 4; i++) {
-            PowerUp p = new PowerUp(list.get(i));
-            p.getComponent(Transform.class).setPosition(805+(i*5),805+(i*5));
-            powerups.add(p);
+        for (int i = 0; i < powerUpCacheSize; i++) {
+            powerUps.get(i).getComponent(Transform.class).setPosition(900+(i*60),600);
         }
     }
 

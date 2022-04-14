@@ -156,14 +156,19 @@ public class Ship extends Entity implements CollisionCallBack {
         return getComponent(Transform.class).getPosition().cpy();
     }
 
+    //Roscoe - added contact between player and powerup
     @Override
     public void BeginContact(CollisionInfo info) {
-
+        if ((this instanceof Player) && (info.a instanceof PowerUp)) {
+            ((CollisionCallBack) info.a).BeginContact(info);
+        }
     }
 
     @Override
     public void EndContact(CollisionInfo info) {
-
+        if ((this instanceof Player) && (info.a instanceof PowerUp)) {
+            ((CollisionCallBack) info.a).EndContact(info);
+        }
     }
 
     /**

@@ -51,7 +51,7 @@ public class CannonBall extends Entity implements CollisionCallBack {
      * Removes the cannonball offscreen once it hits a target.
      */
     private void removeOnCollision() {
-        if (!toggleLife) {
+        if (toggleLife) {
             getComponent(Renderable.class).hide();
             Transform t = getComponent(Transform.class);
             t.setPosition(10000, 10000);
@@ -96,7 +96,7 @@ public class CannonBall extends Entity implements CollisionCallBack {
      * Marks cannonball for removal on next update.
      */
     public void kill() {
-        toggleLife = false;
+        toggleLife = true;
     }
 
     public Ship getShooter() {

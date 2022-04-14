@@ -24,15 +24,15 @@ public class PowerUp extends Entity implements CollisionCallBack {
         super();
         this.powerUpName = name;
         Transform t = new Transform();
-        isFlag = false;
+        t.setPosition(-100, 100);
+        inEffect = false;
         atlas_id = ResourceManager.getId("powerups.txt");
         Renderable r = new Renderable(atlas_id, powerUpName, RenderLayer.Transparent);
-        addComponents(t,r);
         Sprite s = ResourceManager.getSprite(atlas_id, name);
         r.setTexture(s);
-        RigidBody rb = new RigidBody(PhysicsBodyType.Static,r,t);
+        RigidBody rb = new RigidBody(PhysicsBodyType.Dynamic,r,t,true);
         rb.setCallback(this);
-        addComponent(rb);
+        addComponents(t,r,rb);
     }
 
     public void powerUpAffect(String name) {
@@ -53,6 +53,7 @@ public class PowerUp extends Entity implements CollisionCallBack {
     }
 
     public void restore(String name) {
+        inEffect = false;
         if (name == "double_plunder") {
             GameManager.getPlayer().getComponent(Pirate.class).switchDP();
         } else if (name == "FFR_bubble") {
@@ -92,9 +93,7 @@ public class PowerUp extends Entity implements CollisionCallBack {
         }
     }
 
-    public void kill() {
-        isFlag = true;
-    }
+    public void kill() { isFlag = true; }
 
     @Override
     public void update() {
@@ -103,7 +102,7 @@ public class PowerUp extends Entity implements CollisionCallBack {
 
         if (inEffect) {
             timer += Gdx.graphics.getDeltaTime();
-            if (timer >= 20f) {
+            if (timer >= 30f) {
                 restore(powerUpName);
             }
         }
@@ -111,7 +110,16 @@ public class PowerUp extends Entity implements CollisionCallBack {
 
     @Override
     public void BeginContact(CollisionInfo info) {
+        if (info.a instanceof PowerUp) {
+            // the ball if from the same faction
+            /*if(Objects.equals(b.getShooter().getComponent(Pirate.class).getFaction().getName(),
+                    getComponent(Pirate.class).getFaction().getName())) {
+                return;
+            }*/
 
+            kill();
+            powerUpAffect(powerUpName);
+        }
     }
 
     @Override
@@ -121,16 +129,7 @@ public class PowerUp extends Entity implements CollisionCallBack {
 
     @Override
     public void EnterTrigger(CollisionInfo info) {
-        if (info.a instanceof Player) {
-            // the ball if from the same faction
-            /*if(Objects.equals(b.getShooter().getComponent(Pirate.class).getFaction().getName(),
-                    getComponent(Pirate.class).getFaction().getName())) {
-                return;
-            }*/
 
-            powerUpAffect(powerUpName);
-            kill();
-        }
     }
 
     @Override
