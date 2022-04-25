@@ -61,6 +61,20 @@ public class EndScreen extends Page {
             }
         });
         t.add(b);
+        //AYMAN CHANGE: ADDED RESTART BUTTON: NEEDS IMPLEMENTATION
+        t.add(b);
+        t.row();
+        TextButton r = new TextButton("Restart", parent.skin);
+        r.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("Restart");
+                //reset all entities:
+                //parent.setScreen(parent.game);
+            }
+        });
+        t.add(r);
+        //CHANGE END
     }
 
     @Override
