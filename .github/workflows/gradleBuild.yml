@@ -61,8 +61,8 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action/composite@v1
       #if: always()
       with:
-        files: '**/build/test-results/test/TEST-*.xml'
-        #files: "tests/build/test-results/test/TEST-de.tomgrill.gdxtesting.CollegeTests.xml"
+        #files: '**/build/test-results/test/TEST-*.xml'
+        files: "tests/build/test-results/test/TEST-de.tomgrill.gdxtesting.CollegeTests.xml"
         #files: "test-results/**/*.xml"
         #files: "artifacts/**/*.xml"
     - name: Publish JUnit Test Report
