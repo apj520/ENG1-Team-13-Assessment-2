@@ -40,7 +40,8 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Test report
-        path: tests/build/reports/tests/test/index.html
+        path: tests/build/reports/tests/test/
+        #tests/build/reports/tests/test/
         
         #path: core/src/main/java/com/mygdx/utils/QueueFIFO.java
         #path: tests/src/de/tomgrill/gdxtesting/
