@@ -23,9 +23,9 @@ name: Lint Code Base
 #on: [push, pull_request]
 on:
   push:
-    branches: [testing_Adam ]
+    branches-ignore: [master, main]
   pull_request:
-    branches: [testing_Adam ]
+    branches: [master, main]
 
 ###############
 # Set the Job #
