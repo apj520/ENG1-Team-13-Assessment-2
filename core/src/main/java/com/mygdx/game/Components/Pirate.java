@@ -69,7 +69,13 @@ public class Pirate extends Component {
     public void addAmmo(int bullets) {
         ammo += bullets;
     }
-    //END
+    //CHANGE END
+
+    //AYMAN RESTART CHANGE SETTERS:
+    public void resetHealth(int newHealth) {this.health = newHealth;}
+    public void resetPlunder(int newPlunder) {this.plunder = newPlunder;}
+
+
 
 
     public void switchDP() {

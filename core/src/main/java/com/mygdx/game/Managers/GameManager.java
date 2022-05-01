@@ -88,17 +88,15 @@ public final class GameManager {
     public static ArrayList getShip() {
         return  ships;
     }
-    /*
+
     //AYMAN RESTART CHANGE:
     public static void restartGame() {
         JsonValue starting = getSettings().get("starting");
         //reset player starting stats
-        //refactor or find a way to set player pos
-        //getPlayer().setPlayerPos(800, 800);
         getPlayer().getComponent(Pirate.class).setAmmo(starting.getInt("ammo"));
-        getPlayer().getComponent(Pirate.class).setHealth(starting.getInt("health"));
-        getPlayer().getComponent(Pirate.class).setPlunder(0);
-        getPlayer().getComponent(Pirate.class).setPoints(0);
+        getPlayer().getComponent(Pirate.class).resetHealth(starting.getInt("health"));
+        getPlayer().getComponent(Pirate.class).resetPlunder(0);
+        //getPlayer().getComponent(Pirate.class).resetPoints(0);
         //forloop to reset ship spawn pos and health
         //NEED TO RESET SHIP STATUS AFTER ROSCOE ADDS CODE
         //JsonValue faction = getSettings().get("factions").get("shipSpawn").getFloat("x")
@@ -116,8 +114,6 @@ public final class GameManager {
 
         //reset quests -> Actually quests can stay the same for the same game restart
     }
-     */
-
     //CHANGE END
 
     /**

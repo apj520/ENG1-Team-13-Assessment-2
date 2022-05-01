@@ -47,7 +47,9 @@ public class Ship extends Entity implements CollisionCallBack {
         }
 
         Transform t = new Transform();
-        t.setPosition(800, 800);
+        //t.setPosition(800, 800);
+        //AYMAN RESTART CHANGE: reset position
+        t.setPosition(GameManager.getSettings().get("starting").getInt("X")*32, GameManager.getSettings().get("starting").getInt("Y")*32);
         Renderable r = new Renderable(3, "white-up", RenderLayer.Transparent);
         RigidBody rb = new RigidBody(PhysicsBodyType.Dynamic, r, t);
         rb.setCallback(this);

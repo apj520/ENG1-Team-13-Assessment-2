@@ -69,7 +69,9 @@ public class EndScreen extends Page {
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println("Restart");
                 //reset all entities:
-                //parent.setScreen(parent.game);
+                //AYMAN RESTART CHANGE:
+                GameManager.restartGame();
+                parent.setScreen(parent.game);
             }
         });
         t.add(r);
