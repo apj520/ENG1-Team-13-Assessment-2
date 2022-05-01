@@ -14,6 +14,7 @@ import com.mygdx.game.Managers.*;
 import com.mygdx.game.PirateGame;
 import com.mygdx.game.Quests.Quest;
 
+import static com.mygdx.game.PirateGame.prefs;
 import static com.mygdx.utils.Constants.*;
 
 public class GameScreen extends Page {
@@ -52,7 +53,10 @@ public class GameScreen extends Page {
         int buildings_id = ResourceManager.addTextureAtlas("Buildings.txt");
         ResourceManager.loadAssets();*/
 
-
+        //AYMAN DIFF CHANGE:
+        //initialize with changed setting:
+        GameManager.Initialize(prefs.getString("difficulty"));
+        //CHANGE END
         GameManager.SpawnGame(id_map);
         //QuestManager.addQuest(new KillQuest(c));
 

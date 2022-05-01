@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.Managers.ResourceManager;
 import com.mygdx.game.PirateGame;
 
+import static com.mygdx.game.PirateGame.prefs;
 import static com.mygdx.utils.Constants.VIEWPORT_HEIGHT;
 
 /**
@@ -36,16 +37,57 @@ public class MenuScreen extends Page {
         t.add(l).top().spaceBottom(space * 0.5f);
         t.row();
 
-        TextButton play = new TextButton("Play", parent.skin);
+
+        //AYMAN DIFF CHANGE:
+        TextButton play = new TextButton("Easy", parent.skin);
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.setScreen(parent.game);
+                //set difficulty to easy
+                prefs.putString("difficulty", "GameSettingsEasy.json");
+                //parent.setScreen(parent.game);
+                System.out.println(prefs.getString("difficulty"));
+                parent.startGame(parent.id_map);
+                //GameManager.setDifficulty(prefs.getString("difficulty"));
+                //int mid_health = 80;
+                //GameManager.getSettings().get("starting").get("health").setType(mid_health);
             }
         });
         t.add(play).top().size(100, 25).spaceBottom(space);
         t.row();
-
+        //AYMAN CHANGE:
+        TextButton mid = new TextButton("Medium", parent.skin);
+        mid.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                //set difficulty to easy
+                prefs.putString("difficulty", "GameSettingsMedium.json");
+                //parent.setScreen(parent.game);
+                System.out.println(prefs.getString("difficulty"));
+                parent.startGame(parent.id_map);
+                //GameManager.getSettings().
+                //GameManager.setDifficulty(prefs.getString("difficulty"));
+            }
+        });
+        t.add(mid).top().size(100, 25).spaceBottom(space);
+        t.row();
+        //HARD
+        TextButton hard = new TextButton("Hard", parent.skin);
+        hard.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                //set difficulty to easy
+                prefs.putString("difficulty", "GameSettingsHard.json");
+                //parent.setScreen(parent.game);
+                System.out.println(prefs.getString("difficulty"));
+                parent.startGame(parent.id_map);
+                //parent.startGame();
+                //GameManager.setDifficulty(prefs.getString("difficulty"));
+            }
+        });
+        t.add(hard).top().size(100, 25).spaceBottom(space);
+        t.row();
+        //CHANGE END
         TextButton quit = new TextButton("Quit", parent.skin);
         quit.addListener(new ChangeListener() {
             @Override

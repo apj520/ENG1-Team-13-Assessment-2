@@ -60,7 +60,7 @@ public class EndScreen extends Page {
                 System.exit(0);
             }
         });
-        t.add(b);
+        t.add(b).size(100, 25).top().spaceBottom(space* 0.5f);;
         //AYMAN CODE:ADDED RESTART BUTTEN NEEDS IMPLEMENTATION:
         t.row();
         TextButton r = new TextButton("Restart", parent.skin);

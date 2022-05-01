@@ -13,6 +13,8 @@ import com.mygdx.utils.Utilities;
 
 import java.util.ArrayList;//
 import java.util.List;
+
+import static com.mygdx.game.PirateGame.prefs;
 //TODO tryinit has been commented out
 /**
  * Responsible for creating most entity's associated with the game. Also the cached chest and cannonballs
@@ -38,11 +40,12 @@ public final class GameManager {
     /**
      * facilitates creation of the game
      */
-    public static void Initialize() {
+    //AYMAN DIFF CHANGE:
+    public static void Initialize(String difficulty) {
         initialized = true;
         currentElement = 0;
         settings = new JsonReader().
-                parse(Gdx.files.internal("GameSettings.json"));
+                parse(Gdx.files.internal(difficulty));
 
         factions = new ArrayList<>();
         ships = new ArrayList<>();
@@ -170,7 +173,7 @@ public final class GameManager {
 
     private static void tryInit() {
         if (!initialized) {
-            Initialize();
+            Initialize(prefs.getString("difficulty"));
         }
     }
 
