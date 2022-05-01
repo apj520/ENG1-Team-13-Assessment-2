@@ -32,7 +32,7 @@ public class GameScreen extends Page {
     private final Label shopWeapon;
     private final TextButton buyArmor, saveBtn;
     private final TextButton buyWeapon;
-    //public float timer = 0f;
+    public float timer = 0f;
     //CHANGE END
     /*private final Label questComplete;
     private float showTimer = 0;
@@ -209,7 +209,7 @@ public class GameScreen extends Page {
         }
 
         //AYMAN TIMER CHANGE:
-        //timer += Gdx.graphics.getDeltaTime();
+        timer += Gdx.graphics.getDeltaTime();
 
         super.render(delta);
     }
@@ -387,7 +387,7 @@ public class GameScreen extends Page {
         starting.writeValue("ammo",GameManager.getPlayer().getAmmo());
         //starting.writeValue("points",GameManager.getPlayer().getComponent(Pirate.class).getPoints());
         starting.writeValue("points",0);
-        starting.writeValue("time",0);
+        starting.writeValue("time",timer);
         starting.writeObjectEnd();
 
         Json AI = new Json();
@@ -403,12 +403,12 @@ public class GameScreen extends Page {
         jsonObject.writeArrayStart("factions");
         {
             //HALIFAX
-            Json aPhoneNumber = new Json();
-            aPhoneNumber.setOutputType(JsonWriter.OutputType.json);
-            aPhoneNumber.setWriter(writer);
-            aPhoneNumber.writeObjectStart();
-            aPhoneNumber.writeValue("name", "Halifax");
-            aPhoneNumber.writeValue("colour", "light-blue");
+            Json college = new Json();
+            college.setOutputType(JsonWriter.OutputType.json);
+            college.setWriter(writer);
+            college.writeObjectStart();
+            college.writeValue("name", "Halifax");
+            college.writeValue("colour", "light-blue");
             //position
             Json position = new Json();
             position.setOutputType(JsonWriter.OutputType.json);
@@ -428,15 +428,15 @@ public class GameScreen extends Page {
             shipSpawn.writeValue("y",GameManager.getShips(1).getPosition().y / 32);
             shipSpawn.writeObjectEnd();
 
-            aPhoneNumber.writeObjectEnd();
+            college.writeObjectEnd();
 
             //CONSTANTINE
-            Json aPhoneNumberA = new Json();
-            aPhoneNumberA.setOutputType(JsonWriter.OutputType.json);
-            aPhoneNumberA.setWriter(writer);
-            aPhoneNumberA.writeObjectStart();
-            aPhoneNumberA.writeValue("name", "Constantine");
-            aPhoneNumberA.writeValue("colour", "pink");
+            Json collegeA = new Json();
+            collegeA.setOutputType(JsonWriter.OutputType.json);
+            collegeA.setWriter(writer);
+            collegeA.writeObjectStart();
+            collegeA.writeValue("name", "Constantine");
+            collegeA.writeValue("colour", "pink");
 
             //position
             Json positionA = new Json();
@@ -451,19 +451,19 @@ public class GameScreen extends Page {
             shipSpawnA.setOutputType(JsonWriter.OutputType.json);
             shipSpawnA.setWriter(writer);
             shipSpawnA.writeObjectStart("shipSpawn");
-            shipSpawnA.writeValue("x", GameManager.getShips(4).getPosition().y / 32);
+            shipSpawnA.writeValue("x", GameManager.getShips(4).getPosition().x / 32);
             shipSpawnA.writeValue("y",GameManager.getShips(4).getPosition().y / 32);
             shipSpawnA.writeObjectEnd();
 
-            aPhoneNumberA.writeObjectEnd();
+            collegeA.writeObjectEnd();
 
             //LANGWIDTH
-            Json aPhoneNumberB = new Json();
-            aPhoneNumberB.setOutputType(JsonWriter.OutputType.json);
-            aPhoneNumberB.setWriter(writer);
-            aPhoneNumberB.writeObjectStart();
-            aPhoneNumberB.writeValue("name", "Langwidth");
-            aPhoneNumberB.writeValue("colour", "yellow");
+            Json collegeB = new Json();
+            collegeB.setOutputType(JsonWriter.OutputType.json);
+            collegeB.setWriter(writer);
+            collegeB.writeObjectStart();
+            collegeB.writeValue("name", "Langwidth");
+            collegeB.writeValue("colour", "yellow");
 
             //position
             Json positionB = new Json();
@@ -478,20 +478,20 @@ public class GameScreen extends Page {
             shipSpawnB.setOutputType(JsonWriter.OutputType.json);
             shipSpawnB.setWriter(writer);
             shipSpawnB.writeObjectStart("shipSpawn");
-            shipSpawnB.writeValue("x", 35);
-            shipSpawnB.writeValue("y",65);
+            shipSpawnB.writeValue("x", GameManager.getShips(7).getPosition().x / 32);
+            shipSpawnB.writeValue("y",GameManager.getShips(7).getPosition().y / 32);
             shipSpawnB.writeObjectEnd();
 
-            aPhoneNumberB.writeObjectEnd();
+            collegeB.writeObjectEnd();
 
             //GOODRICKE:
             //LANGWIDTH
-            Json aPhoneNumberC = new Json();
-            aPhoneNumberC.setOutputType(JsonWriter.OutputType.json);
-            aPhoneNumberC.setWriter(writer);
-            aPhoneNumberC.writeObjectStart();
-            aPhoneNumberC.writeValue("name", "Goodricke");
-            aPhoneNumberC.writeValue("colour", "green");
+            Json collegeC = new Json();
+            collegeC.setOutputType(JsonWriter.OutputType.json);
+            collegeC.setWriter(writer);
+            collegeC.writeObjectStart();
+            collegeC.writeValue("name", "Goodricke");
+            collegeC.writeValue("colour", "green");
 
             //position
             Json positionC = new Json();
@@ -506,20 +506,20 @@ public class GameScreen extends Page {
             shipSpawnC.setOutputType(JsonWriter.OutputType.json);
             shipSpawnC.setWriter(writer);
             shipSpawnC.writeObjectStart("shipSpawn");
-            shipSpawnC.writeValue("x", 78);
-            shipSpawnC.writeValue("y",69);
+            shipSpawnC.writeValue("x", GameManager.getShips(10).getPosition().x / 32);
+            shipSpawnC.writeValue("y",GameManager.getShips(10).getPosition().y / 32);
             shipSpawnC.writeObjectEnd();
 
-            aPhoneNumberC.writeObjectEnd();
+            collegeC.writeObjectEnd();
 
             //DERWENT:
             //LANGWIDTH
-            Json aPhoneNumberD = new Json();
-            aPhoneNumberD.setOutputType(JsonWriter.OutputType.json);
-            aPhoneNumberD.setWriter(writer);
-            aPhoneNumberD.writeObjectStart();
-            aPhoneNumberD.writeValue("name", "Derwent");
-            aPhoneNumberD.writeValue("colour", "dark-blue");
+            Json collegeD = new Json();
+            collegeD.setOutputType(JsonWriter.OutputType.json);
+            collegeD.setWriter(writer);
+            collegeD.writeObjectStart();
+            collegeD.writeValue("name", "Derwent");
+            collegeD.writeValue("colour", "dark-blue");
 
             //position
             Json positionD = new Json();
@@ -534,11 +534,11 @@ public class GameScreen extends Page {
             shipSpawnD.setOutputType(JsonWriter.OutputType.json);
             shipSpawnD.setWriter(writer);
             shipSpawnD.writeObjectStart("shipSpawn");
-            shipSpawnD.writeValue("x", 84);
-            shipSpawnD.writeValue("y",20);
+            shipSpawnD.writeValue("x", GameManager.getShips(13).getPosition().x / 32);
+            shipSpawnD.writeValue("y",GameManager.getShips(13).getPosition().y / 32);
             shipSpawnD.writeObjectEnd();
 
-            aPhoneNumberD.writeObjectEnd();
+            collegeD.writeObjectEnd();
         }
 
         jsonObject.writeArrayEnd();
@@ -555,13 +555,13 @@ public class GameScreen extends Page {
         facDefaults.writeObjectEnd();
 
         //college:
-        Json college = new Json();
-        college.setOutputType(JsonWriter.OutputType.json);
-        college.setWriter(writer);
-        college.writeObjectStart("college");
-        college.writeValue("spawnRadius", 3);
-        college.writeValue("numBuildings",12);
-        college.writeObjectEnd();
+        Json collegeStat = new Json();
+        collegeStat.setOutputType(JsonWriter.OutputType.json);
+        collegeStat.setWriter(writer);
+        collegeStat.writeObjectStart("college");
+        collegeStat.writeValue("spawnRadius", 3);
+        collegeStat.writeValue("numBuildings",12);
+        collegeStat.writeObjectEnd();
 
         //quests:
         Json quests = new Json();
