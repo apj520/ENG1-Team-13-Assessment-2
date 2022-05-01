@@ -2,6 +2,7 @@ package de.tomgrill.gdxtesting.Ship;
 
 import com.mygdx.game.Entitys.College;
 import com.mygdx.game.Entitys.Player;
+import com.mygdx.game.Managers.GameManager;
 import com.mygdx.game.Managers.PhysicsManager;
 import com.mygdx.game.Managers.ResourceManager;
 import com.mygdx.game.PirateGame;
@@ -22,6 +23,7 @@ public class ShipTests {
         ResourceManager.Initialize();
         PirateGame.loadResources();
         PhysicsManager.Initialize();
+        GameManager.Initialize("GameSettingsEasy.json");
     }
     @After
     public void dispose(){
@@ -31,6 +33,8 @@ public class ShipTests {
     @Test
     public void testShip2(){
         Player player = new Player();
+        ResourceManager.cleanUp();
+        ResourceManager.Initialize();
 
 
     }

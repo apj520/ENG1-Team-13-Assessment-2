@@ -28,6 +28,7 @@ public class CollegeTests {
 
         PirateGame.loadResources();
         PhysicsManager.Initialize();
+        GameManager.Initialize("GameSettingsEasy.json");
     }
     @After
     public void dispose(){

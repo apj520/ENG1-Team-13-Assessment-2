@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.tomgrill.gdxtesting.Ship.ShipTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-05-01T16:16:44" hostname="AYMANASUS" time="0.436">
+  <properties/>
+  <testcase name="testShip2" classname="de.tomgrill.gdxtesting.Ship.ShipTests" time="0.436"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

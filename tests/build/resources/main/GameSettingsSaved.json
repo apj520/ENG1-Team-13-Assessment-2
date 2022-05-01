@@ -1,0 +1,97 @@
+{
+  "starting": {
+    "X": 10.458801,
+    "Y": 24,
+    "health": 100,
+    "damage": 10,
+    "plunder": 100,
+    "playerSpeed": 100,
+    "cannonSpeed": 10000,
+    "argoRange_tiles": 9,
+    "attackRange_tiles": 4,
+    "ammo": 47,
+    "points": 0,
+    "time": 11.332165
+  },
+  "AI": {
+    "maxSpeed": 500,
+    "accelerationTime": 0.01,
+    "arrivalTolerance": 32,
+    "slowRadius": 64
+  },
+  "factions": [
+    {
+      "name": "Halifax",
+      "colour": "light-blue",
+      "position": {
+        "x": 33,
+        "y": 35
+      },
+      "shipSpawn": {
+        "x": 19,
+        "y": 34.500412
+      }
+    },
+    {
+      "name": "Constantine",
+      "colour": "pink",
+      "position": {
+        "x": 51,
+        "y": 51
+      },
+      "shipSpawn": {
+        "x": 44.62438,
+        "y": 44.62438
+      }
+    },
+    {
+      "name": "Langwidth",
+      "colour": "yellow",
+      "position": {
+        "x": 34,
+        "y": 72
+      },
+      "shipSpawn": {
+        "x": 35,
+        "y": 65
+      }
+    },
+    {
+      "name": "Goodricke",
+      "colour": "green",
+      "position": {
+        "x": 75,
+        "y": 77
+      },
+      "shipSpawn": {
+        "x": 78,
+        "y": 69
+      }
+    },
+    {
+      "name": "Derwent",
+      "colour": "dark-blue",
+      "position": {
+        "x": 76,
+        "y": 23
+      },
+      "shipSpawn": {
+        "x": 84,
+        "y": 20
+      }
+    }
+  ],
+  "factionDefaults": {
+    "shipCount": 3,
+    "buildingHealth": 1000,
+    "shipSpawnRadius": 15
+  },
+  "college": {
+    "spawnRadius": 3,
+    "numBuildings": 12
+  },
+  "quests": {
+    "count": 6,
+    "locations": [ 20, 20, 25, 50, 20, 85, 53, 80, 58, 30, 77, 50 ]
+  }
+}
