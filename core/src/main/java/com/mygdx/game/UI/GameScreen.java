@@ -13,7 +13,11 @@ import com.mygdx.game.Entitys.Player;
 import com.mygdx.game.Managers.*;
 import com.mygdx.game.PirateGame;
 import com.mygdx.game.Quests.Quest;
-
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
 import static com.mygdx.game.PirateGame.prefs;
 import static com.mygdx.utils.Constants.*;
 
@@ -28,6 +32,7 @@ public class GameScreen extends Page {
     private final Label shopWeapon;
     private final TextButton buyArmor, saveBtn;
     private final TextButton buyWeapon;
+    //public float timer = 0f;
     //CHANGE END
     /*private final Label questComplete;
     private float showTimer = 0;
@@ -114,11 +119,10 @@ public class GameScreen extends Page {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println("Game Saved!");
-                //AYMAN CHANGE FOR SAVE FEATURE:
-                //prefs = Gdx.app.getPreferences("PirateGame");
-
+                //AYMAN SAVE CHANGE: create and overwrite save file
+                FileHandle saveFile = Gdx.files.local("GameSettingsSaved.json");
+                saveFile.writeString(harcodedLIBGDXJSON(), false);
                 //END CHANGE
-                //Gdx.app.getPreferences("lastsave");
             }
         });
         table.add(saveBtn).bottom().right().size(100, 25).spaceBottom(space);
@@ -203,6 +207,10 @@ public class GameScreen extends Page {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             parent.setScreen(parent.end);
         }
+
+        //AYMAN TIMER CHANGE:
+        //timer += Gdx.graphics.getDeltaTime();
+
         super.render(delta);
     }
 
@@ -351,5 +359,234 @@ public class GameScreen extends Page {
         table.add(ammo).top().left().size(50);
 
         table.top().left();
+    }
+
+    //AYMAN SAVE CHANGE:
+    //make 3 seperate hadcodedjsons for 3 difficulties to easily change AI
+    //values without needing setters which can become complicated
+    public String harcodedLIBGDXJSON(){
+        Json jsonObject = new Json();
+        StringWriter jsonText = new StringWriter();
+        JsonWriter writer = new JsonWriter(jsonText);
+        jsonObject.setOutputType(JsonWriter.OutputType.json);
+        jsonObject.setWriter(writer);
+        jsonObject.writeObjectStart();
+        Json starting = new Json();
+        starting.setOutputType(JsonWriter.OutputType.json);
+        starting.setWriter(writer);
+        starting.writeObjectStart("starting");
+        starting.writeValue("X",GameManager.getShips(0).getPosition().x / 32);
+        starting.writeValue("Y",GameManager.getShips(0).getPosition().y / 32);
+        starting.writeValue("health", GameManager.getPlayer().getHealth());
+        starting.writeValue("damage",10.0);
+        starting.writeValue("plunder", GameManager.getPlayer().getPlunder());
+        starting.writeValue("playerSpeed",100.0); //need getter
+        starting.writeValue("cannonSpeed", 10000.0);
+        starting.writeValue("argoRange_tiles",9.0);
+        starting.writeValue("attackRange_tiles", 4.0);
+        starting.writeValue("ammo",GameManager.getPlayer().getAmmo());
+        //starting.writeValue("points",GameManager.getPlayer().getComponent(Pirate.class).getPoints());
+        starting.writeValue("points",0);
+        starting.writeValue("time",0);
+        starting.writeObjectEnd();
+
+        Json AI = new Json();
+        AI.setOutputType(JsonWriter.OutputType.json);
+        AI.setWriter(writer);
+        AI.writeObjectStart("AI");
+        AI.writeValue("maxSpeed", 500.0);
+        AI.writeValue("accelerationTime",0.01);
+        AI.writeValue("arrivalTolerance", 32.0);
+        AI.writeValue("slowRadius",64.0);
+        AI.writeObjectEnd();
+
+        jsonObject.writeArrayStart("factions");
+        {
+            //HALIFAX
+            Json aPhoneNumber = new Json();
+            aPhoneNumber.setOutputType(JsonWriter.OutputType.json);
+            aPhoneNumber.setWriter(writer);
+            aPhoneNumber.writeObjectStart();
+            aPhoneNumber.writeValue("name", "Halifax");
+            aPhoneNumber.writeValue("colour", "light-blue");
+            //position
+            Json position = new Json();
+            position.setOutputType(JsonWriter.OutputType.json);
+            position.setWriter(writer);
+            position.writeObjectStart("position");
+            position.writeValue("x", 33);
+            position.writeValue("y",35);
+            position.writeObjectEnd();
+            //shipspawn
+            Json shipSpawn = new Json();
+            shipSpawn.setOutputType(JsonWriter.OutputType.json);
+            shipSpawn.setWriter(writer);
+            shipSpawn.writeObjectStart("shipSpawn");
+            //shipSpawn.writeValue("x",19); //x increases ship goes left
+            //shipSpawn.writeValue("y",33); //y increases ships go up
+            shipSpawn.writeValue("x", GameManager.getShips(1).getPosition().x / 32);
+            shipSpawn.writeValue("y",GameManager.getShips(1).getPosition().y / 32);
+            shipSpawn.writeObjectEnd();
+
+            aPhoneNumber.writeObjectEnd();
+
+            //CONSTANTINE
+            Json aPhoneNumberA = new Json();
+            aPhoneNumberA.setOutputType(JsonWriter.OutputType.json);
+            aPhoneNumberA.setWriter(writer);
+            aPhoneNumberA.writeObjectStart();
+            aPhoneNumberA.writeValue("name", "Constantine");
+            aPhoneNumberA.writeValue("colour", "pink");
+
+            //position
+            Json positionA = new Json();
+            positionA.setOutputType(JsonWriter.OutputType.json);
+            positionA.setWriter(writer);
+            positionA.writeObjectStart("position");
+            positionA.writeValue("x", 51);
+            positionA.writeValue("y",51);
+            positionA.writeObjectEnd();
+            //shipspawn
+            Json shipSpawnA = new Json();
+            shipSpawnA.setOutputType(JsonWriter.OutputType.json);
+            shipSpawnA.setWriter(writer);
+            shipSpawnA.writeObjectStart("shipSpawn");
+            shipSpawnA.writeValue("x", GameManager.getShips(4).getPosition().y / 32);
+            shipSpawnA.writeValue("y",GameManager.getShips(4).getPosition().y / 32);
+            shipSpawnA.writeObjectEnd();
+
+            aPhoneNumberA.writeObjectEnd();
+
+            //LANGWIDTH
+            Json aPhoneNumberB = new Json();
+            aPhoneNumberB.setOutputType(JsonWriter.OutputType.json);
+            aPhoneNumberB.setWriter(writer);
+            aPhoneNumberB.writeObjectStart();
+            aPhoneNumberB.writeValue("name", "Langwidth");
+            aPhoneNumberB.writeValue("colour", "yellow");
+
+            //position
+            Json positionB = new Json();
+            positionB.setOutputType(JsonWriter.OutputType.json);
+            positionB.setWriter(writer);
+            positionB.writeObjectStart("position");
+            positionB.writeValue("x", 34);
+            positionB.writeValue("y",72);
+            positionB.writeObjectEnd();
+            //shipspawn
+            Json shipSpawnB = new Json();
+            shipSpawnB.setOutputType(JsonWriter.OutputType.json);
+            shipSpawnB.setWriter(writer);
+            shipSpawnB.writeObjectStart("shipSpawn");
+            shipSpawnB.writeValue("x", 35);
+            shipSpawnB.writeValue("y",65);
+            shipSpawnB.writeObjectEnd();
+
+            aPhoneNumberB.writeObjectEnd();
+
+            //GOODRICKE:
+            //LANGWIDTH
+            Json aPhoneNumberC = new Json();
+            aPhoneNumberC.setOutputType(JsonWriter.OutputType.json);
+            aPhoneNumberC.setWriter(writer);
+            aPhoneNumberC.writeObjectStart();
+            aPhoneNumberC.writeValue("name", "Goodricke");
+            aPhoneNumberC.writeValue("colour", "green");
+
+            //position
+            Json positionC = new Json();
+            positionC.setOutputType(JsonWriter.OutputType.json);
+            positionC.setWriter(writer);
+            positionC.writeObjectStart("position");
+            positionC.writeValue("x", 75);
+            positionC.writeValue("y",77);
+            positionC.writeObjectEnd();
+            //shipspawn
+            Json shipSpawnC = new Json();
+            shipSpawnC.setOutputType(JsonWriter.OutputType.json);
+            shipSpawnC.setWriter(writer);
+            shipSpawnC.writeObjectStart("shipSpawn");
+            shipSpawnC.writeValue("x", 78);
+            shipSpawnC.writeValue("y",69);
+            shipSpawnC.writeObjectEnd();
+
+            aPhoneNumberC.writeObjectEnd();
+
+            //DERWENT:
+            //LANGWIDTH
+            Json aPhoneNumberD = new Json();
+            aPhoneNumberD.setOutputType(JsonWriter.OutputType.json);
+            aPhoneNumberD.setWriter(writer);
+            aPhoneNumberD.writeObjectStart();
+            aPhoneNumberD.writeValue("name", "Derwent");
+            aPhoneNumberD.writeValue("colour", "dark-blue");
+
+            //position
+            Json positionD = new Json();
+            positionD.setOutputType(JsonWriter.OutputType.json);
+            positionD.setWriter(writer);
+            positionD.writeObjectStart("position");
+            positionD.writeValue("x", 76);
+            positionD.writeValue("y",23);
+            positionD.writeObjectEnd();
+            //shipspawn
+            Json shipSpawnD = new Json();
+            shipSpawnD.setOutputType(JsonWriter.OutputType.json);
+            shipSpawnD.setWriter(writer);
+            shipSpawnD.writeObjectStart("shipSpawn");
+            shipSpawnD.writeValue("x", 84);
+            shipSpawnD.writeValue("y",20);
+            shipSpawnD.writeObjectEnd();
+
+            aPhoneNumberD.writeObjectEnd();
+        }
+
+        jsonObject.writeArrayEnd();
+
+        //faction defaults:
+        //to add new stuff set append to true
+        Json facDefaults = new Json();
+        facDefaults.setOutputType(JsonWriter.OutputType.json);
+        facDefaults.setWriter(writer);
+        facDefaults.writeObjectStart("factionDefaults");
+        facDefaults.writeValue("shipCount", 3);
+        facDefaults.writeValue("buildingHealth",1000);
+        facDefaults.writeValue("shipSpawnRadius",15);
+        facDefaults.writeObjectEnd();
+
+        //college:
+        Json college = new Json();
+        college.setOutputType(JsonWriter.OutputType.json);
+        college.setWriter(writer);
+        college.writeObjectStart("college");
+        college.writeValue("spawnRadius", 3);
+        college.writeValue("numBuildings",12);
+        college.writeObjectEnd();
+
+        //quests:
+        Json quests = new Json();
+        quests.setOutputType(JsonWriter.OutputType.json);
+        quests.setWriter(writer);
+        quests.writeObjectStart("quests");
+        quests.writeValue("count", 6);
+        quests.writeArrayStart("locations");
+        quests.writeValue(20);
+        quests.writeValue(20);
+        quests.writeValue(25);
+        quests.writeValue(50);
+        quests.writeValue(20);
+        quests.writeValue(85);
+        quests.writeValue(53);
+        quests.writeValue(80);
+        quests.writeValue(58);
+        quests.writeValue(30);
+        quests.writeValue(77);
+        quests.writeValue(50);
+        quests.writeArrayEnd();
+        quests.writeObjectEnd();
+
+        jsonObject.writeObjectEnd();
+        return jsonObject.prettyPrint(jsonObject.getWriter().getWriter().toString());
+        //return  jsonObject;
     }
 }

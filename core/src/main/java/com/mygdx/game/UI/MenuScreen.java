@@ -29,7 +29,7 @@ public class MenuScreen extends Page {
         Table t = new Table();
         t.setFillParent(true);
 
-        float space = VIEWPORT_HEIGHT * 0.25f;
+        float space = VIEWPORT_HEIGHT * 0.15f;
 
         t.setBackground(new TextureRegionDrawable(ResourceManager.getTexture("menuBG.jpg")));
         Label l = new Label("Pirates the movie the game", parent.skin);
@@ -81,11 +81,24 @@ public class MenuScreen extends Page {
                 //parent.setScreen(parent.game);
                 System.out.println(prefs.getString("difficulty"));
                 parent.startGame(parent.id_map);
-                //parent.startGame();
-                //GameManager.setDifficulty(prefs.getString("difficulty"));
             }
         });
         t.add(hard).top().size(100, 25).spaceBottom(space);
+        t.row();
+        //AYMAN SAVE CHANGE: Load save file
+        TextButton contd = new TextButton("Continue", parent.skin);
+        contd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("load save");
+                //AYMAN SAVE CHANGE
+                prefs.putString("difficulty", "GameSettingsSaved.json");
+                System.out.println(prefs.getString("difficulty"));
+                parent.startGame(parent.id_map);
+                //CHANGE END
+            }
+        });
+        t.add(contd).top().size(100, 25).spaceBottom(space);
         t.row();
         //CHANGE END
         TextButton quit = new TextButton("Quit", parent.skin);

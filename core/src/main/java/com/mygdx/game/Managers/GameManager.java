@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.AI.TileMapGraph;
+import com.mygdx.game.Components.Pirate;
 import com.mygdx.game.Components.Transform;
 import com.mygdx.game.Entitys.*;
 import com.mygdx.game.Faction;
@@ -80,6 +81,44 @@ public final class GameManager {
     public static void update() {
         QuestManager.checkCompleted();
     }
+
+    //AYMAN SAVE CHANGE:
+    public static Ship getShips(int n) {return  ships.get(n);}
+
+    public static ArrayList getShip() {
+        return  ships;
+    }
+    /*
+    //AYMAN RESTART CHANGE:
+    public static void restartGame() {
+        JsonValue starting = getSettings().get("starting");
+        //reset player starting stats
+        //refactor or find a way to set player pos
+        //getPlayer().setPlayerPos(800, 800);
+        getPlayer().getComponent(Pirate.class).setAmmo(starting.getInt("ammo"));
+        getPlayer().getComponent(Pirate.class).setHealth(starting.getInt("health"));
+        getPlayer().getComponent(Pirate.class).setPlunder(0);
+        getPlayer().getComponent(Pirate.class).setPoints(0);
+        //forloop to reset ship spawn pos and health
+        //NEED TO RESET SHIP STATUS AFTER ROSCOE ADDS CODE
+        //JsonValue faction = getSettings().get("factions").get("shipSpawn").getFloat("x")
+        for (int i = 0; i < (GameManager.getShip()).size(); i++) {
+            GameManager.getShips(i).getComponent(Pirate.class).setHealth(100);
+            if (i >=0 && i <=2) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(1).getSpawnPos());}
+            if (i >=3 && i <=5) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(2).getSpawnPos());}
+            if (i >=6 && i <=8) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(3).getSpawnPos());}
+            if (i >=9 && i <=11) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(4).getSpawnPos());}
+            if (i >=12 && i <=14) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(5).getSpawnPos());}
+        }
+        getPlayer().getComponent(Transform.class).setPosition(800, 800); //player has to be repositioned after all the ships are spawned as unsure which ship index player is
+        //for loop to reset college health and booleanstatus (isDestroyed)
+        //reset Shop buttons
+
+        //reset quests -> Actually quests can stay the same for the same game restart
+    }
+     */
+
+    //CHANGE END
 
     /**
      * Player is always in ships at index 0
