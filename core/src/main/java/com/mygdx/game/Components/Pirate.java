@@ -2,6 +2,7 @@ package com.mygdx.game.Components;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
+import com.mygdx.game.Entitys.Monster;
 import com.mygdx.game.Entitys.NPCShip;
 import com.mygdx.game.Entitys.Player;
 import com.mygdx.game.Entitys.Ship;
@@ -113,7 +114,7 @@ public class Pirate extends Component {
         } else {doubleFire = true;}
     }
 
-    //Roscoe - modified shoot function to include power-up functionality (x2 fire)
+    //Roscoe - modified shoot function to include power-up functionality (x2 fire) and monster fire functionality
     /**
      * Will shoot a cannonball assigning this.parent as the cannonball's parent (must be Ship atm)
      *
@@ -125,7 +126,11 @@ public class Pirate extends Component {
         }
         else if (!doubleFire) {
             if (!(parent instanceof Player)) {
-                GameManager.shoot((Ship) parent, dir);
+                if (!(parent instanceof Monster)) {
+                    GameManager.shoot((Ship) parent, dir);
+                } else {
+                    GameManager.shoot((Monster) parent, dir);
+                }
             } else {
                 ammo--;
                 GameManager.shoot((Ship) parent, dir);
@@ -194,6 +199,41 @@ public class Pirate extends Component {
             final float dst = pos.dst(targets.peek().getPosition());
             // out of attack range but in agro range
             return dst >= Ship.getAttackRange();
+        }
+        return false;
+    }
+
+    //Roscoe - added canAttack and isArgo methods specifically for monster
+
+    /**
+     * if dst to target is less than attack range
+     * target will be null if not in agro range
+     */
+    public boolean canAttackMonster() {
+        if (targets.peek() != null) {
+            /**if (targets.peek().getComponent(Pirate.class).getFaction().getName() == getFaction().getName()) {
+             return false;
+             }**/
+            final Monster p = (Monster) parent;
+            final Vector2 pos = p.getPosition();
+            final float dst = pos.dst(targets.peek().getPosition());
+            // withing attack range
+            return dst < Monster.getAttackRange();
+        }
+        return false;
+    }
+
+    /**
+     * if dst to target is >= attack range
+     * target will be null if not in agro range
+     */
+    public boolean isAgroMonster() {
+        if (targets.peek() != null) {
+            final Monster p = (Monster) parent;
+            final Vector2 pos = p.getPosition();
+            final float dst = pos.dst(targets.peek().getPosition());
+            // out of attack range but in agro range
+            return dst >= Monster.getAttackRange();
         }
         return false;
     }

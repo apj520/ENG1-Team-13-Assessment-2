@@ -22,23 +22,24 @@ public class MonsterBall extends Entity implements CollisionCallBack {
     private Monster shooter;
     private final float damage;
 
+    private static int atlas_id;
+
     public MonsterBall() {
         super(3);
-        this.ballName = "";
-        setName("monsterBall");
+        this.ballName = "Monster_Ball_MK1";
         toggleLife = false;
         Transform t = new Transform();
         t.setPosition(-100, 100);
         t.setScale(1f, 1f);
-        int atlas_id = ResourceManager.getId("obstacles.txt");
+        atlas_id = ResourceManager.getId("obstacles.txt");
         Renderable r = new Renderable(atlas_id, ballName, RenderLayer.Transparent);
         RigidBody rb = new RigidBody(PhysicsBodyType.Dynamic, r, t, true);
         rb.setCallback(this);
 
         addComponents(t, r, rb);
 
-        speed = GameManager.getSettings().get("starting").getFloat("cannonSpeed")*2;
-        damage = GameManager.getSettings().get("starting").getFloat("damage")*2;
+        speed = GameManager.getSettings().get("obstacle").getFloat("cannonSpeed");
+        damage = GameManager.getSettings().get("obstacle").getFloat("damage");
         r.hide();
     }
 
@@ -112,7 +113,10 @@ public class MonsterBall extends Entity implements CollisionCallBack {
 
     @Override
     public void BeginContact(CollisionInfo info) {
-
+        if (info.b instanceof Player) {
+            ((Player) info.b).monsterBallAffect(info);
+            ((MonsterBall) info.a).kill();
+        }
     }
 
     @Override

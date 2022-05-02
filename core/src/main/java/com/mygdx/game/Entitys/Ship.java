@@ -162,7 +162,7 @@ public class Ship extends Entity implements CollisionCallBack {
 
         if (this instanceof Player) {
             //Roscoe - checks if player collides with powerup or cannonball NOT associated with player
-            if (info.a instanceof PowerUp || (info.a instanceof CannonBall && ((CannonBall) info.a).getShooter().getComponent(Pirate.class).getFaction().id != 1)) {
+            if (info.a instanceof PowerUp || (info.a instanceof CannonBall && ((CannonBall) info.a).getShooter().getComponent(Pirate.class).getFaction().id != 1) || info.a instanceof MonsterBall) {
                 ((CollisionCallBack) info.a).BeginContact(info);
             }
         }

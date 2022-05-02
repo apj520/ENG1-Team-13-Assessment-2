@@ -54,6 +54,10 @@ public class Player extends Ship {
         getComponent(Pirate.class).takeDamage(((CannonBall) info.a).getDamage());
     }
 
+    public void monsterBallAffect(CollisionInfo info) {
+        getComponent(Pirate.class).takeDamage(((MonsterBall) info.a).getDamage());
+    }
+
     @Override
     public void cleanUp() {
         super.cleanUp();

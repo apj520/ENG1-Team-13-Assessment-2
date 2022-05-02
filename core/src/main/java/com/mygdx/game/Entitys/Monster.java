@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.AI.EnemyState;
@@ -11,6 +12,7 @@ import com.mygdx.game.AI.MonsterState;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Managers.GameManager;
 import com.mygdx.game.Managers.RenderLayer;
+import com.mygdx.game.Managers.ResourceManager;
 import com.mygdx.game.Physics.CollisionCallBack;
 import com.mygdx.game.Physics.CollisionInfo;
 import com.mygdx.game.Physics.PhysicsBodyType;
@@ -28,14 +30,18 @@ public class Monster extends Obstacle implements CollisionCallBack {
 
     public Monster() {
         super();
-        this.obstacleName = "Monster";
+        this.obstacleName = "Monster_MK1";
 
-        //TODO - set sprite properly
-        //getComponent(Renderable.class).setTexture(obstacleName);
 
-        getComponent(Transform.class).setPosition(2000,-100);
 
-        getComponent(Pirate.class).setHealth(200);
+        JsonValue starting = GameManager.getSettings().get("starting");
+        JsonValue obstacleSettings = GameManager.getSettings().get("obstacle");
+
+        getComponent(Renderable.class).setTexture(ResourceManager.getSprite(ResourceManager.getId("obstacles.txt"), obstacleName));
+
+        getComponent(Transform.class).setPosition(1800,600);
+
+        getComponent(Pirate.class).setHealth(obstacleSettings.getInt("health"));
 
         path = new QueueFIFO<>();
         if (AISettings == null) {
@@ -43,13 +49,11 @@ public class Monster extends Obstacle implements CollisionCallBack {
         }
 
         stateMachineMonster = new DefaultStateMachine<>(this, MonsterState.WANDER);
-        AINavigation nav = new AINavigation();
-        addComponent(nav);
-
-        JsonValue starting = GameManager.getSettings().get("starting");
+        /**AINavigation nav = new AINavigation();
+        addComponent(nav);**/
 
         // agro trigger
-        getComponent(RigidBody.class).addTrigger(Utilities.tilesToDistance(starting.getFloat("argoRange_tiles")), "agro");
+        getComponent(RigidBody.class).addTrigger(Utilities.tilesToDistance(obstacleSettings.getFloat("argoRange_tiles")), "agro");
     }
 
     private boolean setCanFire() {
@@ -64,7 +68,7 @@ public class Monster extends Obstacle implements CollisionCallBack {
             //delta.y *= -1;
 
             getComponent(Pirate.class).shoot(delta);
-
+            fireTimer = 0;
 
         }
     }
@@ -94,34 +98,6 @@ public class Monster extends Obstacle implements CollisionCallBack {
 
 
     /**
-     * creates a new steering behaviour that will make the NPC beeline for the target doesn't factor in obstetrical
-     */
-    public void followTarget() {
-        if (getTarget() == null) {
-            stopMovement();
-            return;
-        }
-        AINavigation nav = getComponent(AINavigation.class);
-
-        Arrive<Vector2> arrives = new Arrive<>(nav,
-                getTarget().getComponent(Transform.class))
-                .setTimeToTarget(AISettings.getFloat("accelerationTime"))
-                .setArrivalTolerance(AISettings.getFloat("arrivalTolerance"))
-                .setDecelerationRadius(AISettings.getFloat("slowRadius"));
-
-        nav.setBehavior(arrives);
-    }
-
-    /**
-     * stops all movement and sets the behaviour to null
-     */
-    public void stopMovement() {
-        AINavigation nav = getComponent(AINavigation.class);
-        nav.setBehavior(null);
-        nav.stop();
-    }
-
-    /**
      * Meant to cause the npc to wander
      */
     public void wander() {
@@ -144,6 +120,10 @@ public class Monster extends Obstacle implements CollisionCallBack {
         fireTimer += Gdx.graphics.getDeltaTime();
     }
 
+    public static float getAttackRange() {
+        return Utilities.tilesToDistance(GameManager.getSettings().get("obstacle").getFloat("attackRange_tiles"));
+    }
+
     @Override
     public void BeginContact(CollisionInfo info) {
 
@@ -156,11 +136,23 @@ public class Monster extends Obstacle implements CollisionCallBack {
 
     @Override
     public void EnterTrigger(CollisionInfo info) {
-
+        Ship other = (Ship) info.a;
+        if (other instanceof Player) {
+            Pirate pirate = getComponent(Pirate.class);
+            pirate.addTarget(other);
+        }
     }
 
     @Override
     public void ExitTrigger(CollisionInfo info) {
-
+        Pirate pirate = getComponent(Pirate.class);
+        Ship o = (Ship) info.a;
+        // remove the object from the targets list
+        for (Ship targ : pirate.getTargets()) {
+            if (targ == o) {
+                pirate.getTargets().remove(targ);
+                break;
+            }
+        }
     }
 }

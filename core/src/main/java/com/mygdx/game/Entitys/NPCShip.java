@@ -157,8 +157,7 @@ public class NPCShip extends Ship implements CollisionCallBack {
             rb.setVelocity(0, 0);
 
             //Sets the ship back to alive to avoid the above being called more than once
-            //getComponent(Pirate.class).resetHealth();
-            //TODO - can't remove dead ship from other ships target list, crashes
+            getComponent(Pirate.class).resetHealth();
             removeFromTargets();
     }
 

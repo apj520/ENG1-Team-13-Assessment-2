@@ -29,6 +29,7 @@ public class PirateGame extends Game {
     private static int buildings_id;
 
     private static int powerups_id;
+    private static int obstacles_id;
 
     /**
      * Create instances of game stage and UI screens.
@@ -58,6 +59,7 @@ public class PirateGame extends Game {
 
         //Roscoe - added textureAtlas for sprites
         powerups_id = ResourceManager.addTextureAtlas("powerups.txt");
+        obstacles_id = ResourceManager.addTextureAtlas("obstacles.txt");
 
 
         ResourceManager.addTexture("menuBG.jpg");

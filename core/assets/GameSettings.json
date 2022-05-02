@@ -9,6 +9,14 @@
     "attackRange_tiles": 4.0,
     "ammo": 50
   },
+  "obstacle": {
+    "health": 200,
+    "damage": 100.0,
+    "argoRange_tiles": 18.0,
+    "attackRange_tiles": 8.0,
+    "cannonSpeed": 10000000.0,
+    "monsterSpeed": 2000.0
+  },
   "AI": {
     "maxSpeed": 1000.0,
     "accelerationTime": 0.01,

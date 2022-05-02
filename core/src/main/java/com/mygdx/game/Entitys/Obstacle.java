@@ -24,16 +24,17 @@ public class Obstacle extends Entity implements CollisionCallBack {
 
     protected String obstacleName;
     protected boolean isActive;
+    protected int atlas_id = ResourceManager.getId("obstacles.txt");
 
     public Obstacle() {
         super(4);
-        this.obstacleName = "";
         Vector2 currentDir = new Vector2();
-        int atlas_id = ResourceManager.getId("obstacles.txt");
+
+        this.obstacleName = "Monster_MK1";
 
         Transform t = new Transform();
         Renderable r = new Renderable(atlas_id, obstacleName, RenderLayer.Transparent);
-        RigidBody rb = new RigidBody(PhysicsBodyType.Dynamic, r, t, true);
+        RigidBody rb = new RigidBody(PhysicsBodyType.Static, r, t, true);
         rb.setCallback(this);
 
         Pirate p = new Pirate();

@@ -17,7 +17,6 @@ public enum MonsterState implements State<Monster> {
     WANDER() {
         @Override
         public void enter(Monster e) {
-            e.stopMovement();
             e.wander();
         }
 
@@ -33,7 +32,6 @@ public enum MonsterState implements State<Monster> {
     PURSUE() {
         @Override
         public void enter(Monster e) {
-            e.followTarget();
             // e.goToTarget();
         }
 
@@ -59,7 +57,7 @@ public enum MonsterState implements State<Monster> {
     ATTACK() {
         @Override
         public void enter(Monster e) {
-            e.stopMovement();
+
         }
 
         @Override
@@ -81,31 +79,31 @@ public enum MonsterState implements State<Monster> {
         Pirate p = e.getComponent(Pirate.class);
         switch (m.getCurrentState()) {
             case WANDER:
-                if (p.isAgro()) {
+                if (p.isAgroMonster()) {
                     m.changeState(PURSUE);
-                } else if (p.canAttack()) {
+                } else if (p.canAttackMonster()) {
                     m.changeState(ATTACK);
                 }
                 break;
             case PURSUE:
                 // if enter attack range attack
-                if (p.canAttack()) {
+                if (p.canAttackMonster()) {
                     m.changeState(ATTACK);
                 }
                 // if leave detection range wander
-                if (!p.canAttack() && !p.isAgro()) {
+                if (!p.canAttackMonster() && !p.isAgroMonster()) {
                     m.changeState(WANDER);
                 }
                 break;
             case HUNT:
                 // if enter detection range pursue
-                if (p.isAgro()) {
+                if (p.isAgroMonster()) {
                     m.changeState(PURSUE);
                 }
                 break;
             case ATTACK:
                 // if leave attack range pursue
-                if (p.isAgro() && !p.canAttack()) {
+                if (p.isAgroMonster() && !p.canAttackMonster()) {
                     m.changeState(PURSUE);
                 }
                 // if target dead

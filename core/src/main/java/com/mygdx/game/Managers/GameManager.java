@@ -39,6 +39,7 @@ public final class GameManager {
     //Roscoe - added monster ball cache
     private static ArrayList<Obstacle> obstacles;
     private static ArrayList<MonsterBall> monsterBallCache;
+    private static final int monsterCacheSize = 20;
 
     /**
      * facilitates creation of the game
@@ -62,11 +63,11 @@ public final class GameManager {
         powerUps = new ArrayList<>(powerUpCacheSize);
 
         //Roscoe - added monsterBall cache
-        /**obstacles = new ArrayList<>();
+        obstacles = new ArrayList<>();
         monsterBallCache = new ArrayList<>(20);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < monsterCacheSize; i++) {
             monsterBallCache.add(new MonsterBall());
-        }**/
+        }
 
 
         for (JsonValue v : settings.get("factions")) {
@@ -105,7 +106,7 @@ public final class GameManager {
         CreateWorldMap(mapId);
         CreatePlayer();
         CreatePowerUps();
-        //CreateMonsters();
+        CreateMonsters();
         //CreateHurricane();
         final int cnt = settings.get("factionDefaults").getInt("shipCount");
         for (int i = 0; i < factions.size(); i++) {
