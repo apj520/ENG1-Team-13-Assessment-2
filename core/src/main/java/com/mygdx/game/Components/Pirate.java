@@ -64,6 +64,16 @@ public class Pirate extends Component {
         }
     }
 
+    //AYMAN ADD FUNCTIONALITY FOR ARMOR + AMMO UPDRADE:
+    public void addArmor(int armor) {
+        health += armor;
+    }
+    public void addAmmo(int bullets) {
+        ammo += bullets;
+    }
+    //END
+
+
     public void switchDP() {
         if (dpFlag) {
             dpFlag = false;

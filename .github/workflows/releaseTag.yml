@@ -1,0 +1,50 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and 
+#cache/restore any dependencies to improve the workflow 
+#execution time. For more information see: https://help.github.com/
+#actions/language-and-framework-guides/building-and-testing-java-
+#with-gradle
+
+---
+name: Automate Releases On Tagged Commits
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 6.7.1
+          arguments: desktop:dist
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+      - name: Rename jar file
+        run: |
+          cd desktop/build/libs
+          mv desktop-1.0.jar "pirategame-Team13-$TAG.jar"
+          ls
+        env:
+          TAG: ${{ steps.get_version.outputs.VERSION }}
+      - name: Automatically release
+        uses: softprops/action-gh-release@v0.1.14
+        with:
+          fail_on_unmatched_files: true
+          files: |
+            desktop/build/libs/*.jar

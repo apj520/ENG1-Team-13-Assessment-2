@@ -1,0 +1,75 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Gradle Final
+
+on: [push, pull_request]
+  #push:
+    #branches: [ master, ayman_branch ]
+  #pull_request:
+    #branches: [ master, ayman_branch ]
+
+jobs:
+  build:
+
+   runs-on: windows-latest
+   #runs-on: ${{ matrix.os }}
+   #strategy:
+   # matrix:
+   #    os: [ubuntu-latest, macos-latest, windows-latest]
+
+   steps:
+    - uses: actions/checkout@v2
+    - uses: gradle/wrapper-validation-action@v1
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        cache: gradle
+        
+    #ALTERNATE BUILD
+    #- uses: gradle/gradle-build-action@v2
+    #  with:
+    #   arguments: build
+    
+    - name: Build with Gradle
+      run: ./gradlew build --no-daemon
+      
+    - name: Archive test report
+      uses: actions/upload-artifact@v2
+      with:
+        name: Test report
+        path: tests/build/reports/tests/test/index.html
+        
+        #path: core/src/main/java/com/mygdx/utils/QueueFIFO.java
+        #path: tests/src/de/tomgrill/gdxtesting/
+        #path: core/src/main/java/com/mygdx/utils
+      #run: mvn -B package --file mavenTest/pom.xml # mvn -B package --file pom.xml
+      
+    - name: Publish Unit Test Results in UI
+      uses: EnricoMi/publish-unit-test-result-action/composite@v1
+      if: always()
+      with:
+        files: "tests/build/test-results/test/TEST-de.tomgrill.gdxtesting.CollegeTests.xml"
+        
+    - name: Publish Test Report
+      uses: mikepenz/action-junit-report@v3
+      if: always() # always run even if the previous step fails
+      with:
+        report_paths: '**/build/test-results/test/TEST-*.xml'
+        
+    #- name: Monitor coverage
+    #  uses: slavcodev/coverage-monitor-action@v1
+    #  with:
+    #    github_token: ${{ secrets.GITHUB_TOKEN }}
+    #    coverage_path: "tests/build/test-results/test/TEST-de.tomgrill.gdxtesting.CollegeTests.xml"
+    #    threshold_alert: 10
+    #    threshold_warning: 50
+    #    threshold_metric: "lines"
+        
+        #coverage_path: "logs/clover.xml"
+    #- uses: actions/upload-artifact@v2
+    #  with:
+    #   name: my-artifact
+    #   path: mavenTest/target/

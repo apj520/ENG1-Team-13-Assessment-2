@@ -10,7 +10,7 @@ on: [push, pull_request]
     #branches: [ master, ayman_branch ]
 
 jobs:
-  build:
+  build_test:
 
    runs-on: windows-latest
    #runs-on: ${{ matrix.os }}
@@ -33,31 +33,98 @@ jobs:
     #  with:
     #   arguments: build
     
-    - name: Build with Gradle
+    - name: Build and Test
       run: ./gradlew build --no-daemon
       
     - name: Archive test report
       uses: actions/upload-artifact@v2
       with:
         name: Test report
-        path: tests/build/reports/tests/test/index.html
+        path: tests/build/reports/tests/test/
+        #tests/build/reports/tests/test/
         
         #path: core/src/main/java/com/mygdx/utils/QueueFIFO.java
         #path: tests/src/de/tomgrill/gdxtesting/
         #path: core/src/main/java/com/mygdx/utils
       #run: mvn -B package --file mavenTest/pom.xml # mvn -B package --file pom.xml
       
+  publish_test_report:
+  
+   runs-on: windows-latest
+   #runs-on: ${{ matrix.os }}
+   #strategy:
+   # matrix:
+   #    os: [ubuntu-latest, macos-latest, windows-latest]
+
+   steps:
+    - uses: actions/checkout@v2
+    - uses: gradle/wrapper-validation-action@v1
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        cache: gradle  
+        
     - name: Publish Unit Test Results in UI
       uses: EnricoMi/publish-unit-test-result-action/composite@v1
       if: always()
       with:
-        files: "tests/build/test-results/test/TEST-de.tomgrill.gdxtesting.CollegeTests.xml"
+        files: "tests/build/test-results/test/TEST-de.tomgrill.gdxtesting.CollegeTests.xml"        
         
-    - name: Publish Test Report
+    - name: Publish JUnit Test Report
       uses: mikepenz/action-junit-report@v3
       if: always() # always run even if the previous step fails
       with:
-        report_paths: '**/build/test-results/test/TEST-*.xml'
+        report_paths: '**/build/test-results/test/TEST-*.xml'  
+    #- name: Publish Unit Test Results
+    #  needs: build_test
+      #runs-on: ubuntu-latest
+    #  if: success() || failure()
+    #  steps:
+    #- name: Download artifacts
+    #  uses: actions/download-artifact@v2
+    #  with:
+    #    path: artifacts
+    #- name: Publish Test Report 
+      #uses: EnricoMi/publish-unit-test-result-action/composite@v1
+      #if: always()
+      #with:
+        #files: "tests/build/test-results/test/TEST-de.tomgrill.gdxtesting.CollegeTests.xml"
+        #files: "tests/build/test-results/**/*.xml"
+        #files: "artifacts/**/*.xml"
+    #- name: Publish JUnit Test Report
+    #  uses: mikepenz/action-junit-report@v3
+    #  if: always() # always run even if the previous step fails
+    #  with:
+    #    report_paths: 'tests/build/test-results/test/TEST-*.xml'
+        
+      
+    #- name: Publish Unit Test Results in UI
+    #  uses: EnricoMi/publish-unit-test-result-action/composite@v1
+    #  if: always()
+    #  with:
+    #    files: "tests/build/test-results/test/TEST-de.tomgrill.gdxtesting.CollegeTests.xml"
+ # publish-coverage-report:
+ #     name: Publish Coverage Test Report
+ #     needs: test
+  ##    runs-on: ubuntu-latest
+  #    if: success()
+  #    steps:
+  #    - name: Download Artifacts
+  #      uses: actions/download-artifact@v2
+  #      with:
+  #        path: artifacts
+  #    - name: Upload Code Coverage
+  #      uses: codecov/codecov-action@v3
+  #      with:
+  #        token: ${{ secrets.CODECOV_TOKEN }}
+  #        directory: ./artifacts/coverage-test-results/
+  #        files: report.xml
+  #        verbose: true
+  #    - name: Show File Structure
+  #      run: ls -R
+
         
     #- name: Monitor coverage
     #  uses: slavcodev/coverage-monitor-action@v1
