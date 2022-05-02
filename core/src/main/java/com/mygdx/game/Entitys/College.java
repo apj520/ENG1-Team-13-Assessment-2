@@ -67,6 +67,8 @@ public class College extends Entity {
                 pos = Utilities.tilesToDistance(pos).add(origin);
 
                 Building b = new Building();
+                //Roscoe - added assignment of building to college factionid
+                b.getComponent(Pirate.class).setFactionId(getComponent(Pirate.class).getFaction().getId());
                 buildings.add(b);
 
                 String b_name = Utilities.randomChoice(buildingNames, 0);
@@ -94,6 +96,8 @@ public class College extends Entity {
         }
         if (!res) {
             getComponent(Pirate.class).kill();
+            //Roscoe - added plunder reward for killing college
+            GameManager.getPlayer().getComponent(Pirate.class).addPlunder(100);
         }
     }
 

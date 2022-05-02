@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.AI.TileMapGraph;
+import com.mygdx.game.Components.Pirate;
 import com.mygdx.game.Components.Transform;
 import com.mygdx.game.Entitys.*;
 import com.mygdx.game.Faction;
@@ -27,13 +28,17 @@ public final class GameManager {
     private static ArrayList<PowerUp>  powerUps;
     private static final int powerUpCacheSize = 5;
 
-    private static final int cacheSize = 20;
+    private static final int cacheSize = 100;
     private static ArrayList<CannonBall> ballCache;
     private static int currentElement;
 
     private static JsonValue settings;
 
     private static TileMapGraph mapGraph;
+
+    //Roscoe - added monster ball cache
+    private static ArrayList<Obstacle> obstacles;
+    private static ArrayList<MonsterBall> monsterBallCache;
 
     /**
      * facilitates creation of the game
@@ -49,16 +54,20 @@ public final class GameManager {
         ballCache = new ArrayList<>(cacheSize);
         colleges = new ArrayList<>();
 
-        //Roscoe - initialises list of power-ups
-        String[] powerUpNames = {"double_plunder","FFR_bubble","health_regen","immunity","speed"};
-        powerUps = new ArrayList<>(powerUpCacheSize);
-        for (int i = 0; i < powerUpCacheSize; i++) {
-            powerUps.add(new PowerUp(powerUpNames[i]));
-        }
-
         for (int i = 0; i < cacheSize; i++) {
             ballCache.add(new CannonBall());
         }
+
+        //Roscoe - initialises list of power-ups
+        powerUps = new ArrayList<>(powerUpCacheSize);
+
+        //Roscoe - added monsterBall cache
+        /**obstacles = new ArrayList<>();
+        monsterBallCache = new ArrayList<>(20);
+        for (int i = 0; i < 5; i++) {
+            monsterBallCache.add(new MonsterBall());
+        }**/
+
 
         for (JsonValue v : settings.get("factions")) {
             String name = v.getString("name");
@@ -94,8 +103,10 @@ public final class GameManager {
      */
     public static void SpawnGame(int mapId) {
         CreateWorldMap(mapId);
-        CreatePowerUps();
         CreatePlayer();
+        CreatePowerUps();
+        //CreateMonsters();
+        //CreateHurricane();
         final int cnt = settings.get("factionDefaults").getInt("shipCount");
         for (int i = 0; i < factions.size(); i++) {
             CreateCollege(i + 1);
@@ -133,6 +144,12 @@ public final class GameManager {
         NPCShip e = new NPCShip();
         e.setFaction(factionId);
         ships.add(e);
+
+        //Roscoe - added condition that if npcship is halifax, health is only 50 for game balance
+        if (factionId == 1) {
+            e.getComponent(Pirate.class).setHealth(50);
+        }
+
         return e;
     }
 
@@ -163,9 +180,21 @@ public final class GameManager {
      * Creates 5 unique powerups
      */
     public static void CreatePowerUps() {
+        String[] powerUpNames = {"double_plunder","FFR_bubble","health_regen","immunity","speed"};
         for (int i = 0; i < powerUpCacheSize; i++) {
+            powerUps.add(new PowerUp(powerUpNames[i]));
             powerUps.get(i).getComponent(Transform.class).setPosition(900+(i*60),600);
         }
+    }
+
+    //Roscoe - added getShips method
+
+    public static ArrayList<Ship> getShipsList() {
+        return ships;
+    }
+    public static void CreateMonsters() {
+        Monster m = new Monster();
+        obstacles.add(m);
     }
 
     private static void tryInit() {
@@ -200,10 +229,15 @@ public final class GameManager {
      * @param p   parent
      * @param dir shoot direction
      */
-    public static void shoot(Ship p, Vector2 dir) {
+    public static void shoot(Entity p, Vector2 dir) {
         Vector2 pos = p.getComponent(Transform.class).getPosition().cpy();
         //pos.add(dir.x * TILE_SIZE * 0.5f, dir.y * TILE_SIZE * 0.5f);
-        ballCache.get(currentElement++).fire(pos, dir, p);
+        if (p instanceof Ship) {
+            ballCache.get(currentElement++).fire(pos, dir, (Ship) p);
+        }
+        else if (p instanceof Monster) {
+            monsterBallCache.get(currentElement++).fire(pos, dir, (Monster) p);
+        }
         currentElement %= cacheSize;
     }
 

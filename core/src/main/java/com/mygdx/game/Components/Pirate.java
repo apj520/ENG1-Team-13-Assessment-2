@@ -2,6 +2,8 @@ package com.mygdx.game.Components;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
+import com.mygdx.game.Entitys.NPCShip;
+import com.mygdx.game.Entitys.Player;
 import com.mygdx.game.Entitys.Ship;
 import com.mygdx.game.Faction;
 import com.mygdx.game.Managers.GameManager;
@@ -83,8 +85,7 @@ public class Pirate extends Component {
         if (!isImmune) {
             health -= dmg;
             if (health <= 0) {
-                health = 0;
-                isAlive = false;
+                kill();
             }
         }
     }
@@ -113,14 +114,20 @@ public class Pirate extends Component {
             return;
         }
         else if (!doubleFire) {
-            ammo--;
-            GameManager.shoot((Ship) parent, dir);
+            if (!(parent instanceof Player)) {
+                GameManager.shoot((Ship) parent, dir);
+            } else {
+                ammo--;
+                GameManager.shoot((Ship) parent, dir);
+            }
+
         } else {
+            ammo--;
             if (ammo < 2) {
                 GameManager.shoot((Ship) parent, dir);
             } else {
-                GameManager.shoot((Ship) parent, dir.rotateDeg(358));
-                GameManager.shoot((Ship) parent, dir.rotateDeg(2));
+                GameManager.shoot((Ship) parent, dir.rotateDeg(356));
+                GameManager.shoot((Ship) parent, dir.rotateDeg(4));
             }
         }
     }
@@ -145,6 +152,7 @@ public class Pirate extends Component {
 
     public void resetHealth() {
         health = GameManager.getSettings().get("starting").getInt("health");
+        isAlive = true;
     }
 
     /**
@@ -153,6 +161,9 @@ public class Pirate extends Component {
      */
     public boolean canAttack() {
         if (targets.peek() != null) {
+            /**if (targets.peek().getComponent(Pirate.class).getFaction().getName() == getFaction().getName()) {
+                return false;
+            }**/
             final Ship p = (Ship) parent;
             final Vector2 pos = p.getPosition();
             final float dst = pos.dst(targets.peek().getPosition());

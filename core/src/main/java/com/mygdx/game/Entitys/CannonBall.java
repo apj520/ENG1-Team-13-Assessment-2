@@ -22,6 +22,7 @@ public class CannonBall extends Entity implements CollisionCallBack {
     private static final int MAX_AGE = 5;
     // private float age = 0;
     private Ship shooter;
+    private float damage;
 
     public CannonBall() {
         super(3);
@@ -37,6 +38,7 @@ public class CannonBall extends Entity implements CollisionCallBack {
         addComponents(t, r, rb);
 
         speed = GameManager.getSettings().get("starting").getFloat("cannonSpeed");
+        damage = GameManager.getSettings().get("starting").getFloat("damage");
         r.hide();
     }
 
@@ -44,6 +46,11 @@ public class CannonBall extends Entity implements CollisionCallBack {
     public void update() {
         super.update();
         removeOnCollision();
+    }
+
+    //Roscoe - added getDamage method for combat
+    public float getDamage() {
+        return this.damage;
     }
 
     //Roscoe - changed if statement to actually remove cannonball when needed
@@ -103,9 +110,13 @@ public class CannonBall extends Entity implements CollisionCallBack {
         return shooter;
     }
 
+    //Roscoe - added player/npc cannonball collision
     @Override
     public void BeginContact(CollisionInfo info) {
-
+        if (info.b instanceof Player) {
+            ((Player) info.b).cannonBallAffect(info);
+            ((CannonBall) info.a).kill();
+        }
     }
 
     @Override

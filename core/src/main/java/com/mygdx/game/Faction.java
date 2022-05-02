@@ -36,8 +36,34 @@ public class Faction {
         return name;
     }
 
+    //Roscoe - added set methods for variables
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getColour() {
         return shipColour;
+    }
+
+    //Roscoe - added set methods for variables
+    public void setColour(String colour) {
+        this.shipColour = colour;
+    }
+
+    //Roscoe - added changeFaction method
+    public void changeFaction(String name, String colour, int id) {
+        setName(name);
+        setColour(colour);
+        setId(id);
+    }
+
+    //Roscoe -added get and set methods for id
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Vector2 getPosition() {
@@ -47,4 +73,5 @@ public class Faction {
     public Vector2 getSpawnPos() {
         return spawnPos;
     }
+
 }

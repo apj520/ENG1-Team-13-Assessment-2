@@ -30,7 +30,7 @@ public class PowerUp extends Entity implements CollisionCallBack {
         Renderable r = new Renderable(atlas_id, powerUpName, RenderLayer.Transparent);
         Sprite s = ResourceManager.getSprite(atlas_id, name);
         r.setTexture(s);
-        RigidBody rb = new RigidBody(PhysicsBodyType.Dynamic,r,t,true);
+        RigidBody rb = new RigidBody(PhysicsBodyType.Dynamic,r,t);
         rb.setCallback(this);
         addComponents(t,r,rb);
     }
@@ -48,7 +48,7 @@ public class PowerUp extends Entity implements CollisionCallBack {
         } else if (name == "immunity") {
             GameManager.getPlayer().getComponent(Pirate.class).switchImmune();
         } else if (name == "speed") {
-            GameManager.getPlayer().updateSpeed(1.3f);
+            GameManager.getPlayer().updateSpeed(1000f);
         }
     }
 
@@ -110,7 +110,7 @@ public class PowerUp extends Entity implements CollisionCallBack {
 
     @Override
     public void BeginContact(CollisionInfo info) {
-        if (info.a instanceof PowerUp) {
+        if (info.a instanceof Player) {
             // the ball if from the same faction
             /*if(Objects.equals(b.getShooter().getComponent(Pirate.class).getFaction().getName(),
                     getComponent(Pirate.class).getFaction().getName())) {

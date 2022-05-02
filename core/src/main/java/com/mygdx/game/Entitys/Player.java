@@ -3,6 +3,8 @@ package com.mygdx.game.Entitys;
 import com.mygdx.game.Components.Pirate;
 import com.mygdx.game.Components.PlayerController;
 import com.mygdx.game.Managers.GameManager;
+import com.mygdx.game.Physics.CollisionCallBack;
+import com.mygdx.game.Physics.CollisionInfo;
 
 /**
  * Player's ship entity.
@@ -45,6 +47,11 @@ public class Player extends Ship {
     public void restoreSpeed() {
         PlayerController pc = getComponent(PlayerController.class);
         pc.setSpeed(GameManager.getSettings().get("starting").getFloat("playerSpeed"));
+    }
+
+    //Roscoe - added cannonBall affects
+    public void cannonBallAffect(CollisionInfo info) {
+        getComponent(Pirate.class).takeDamage(((CannonBall) info.a).getDamage());
     }
 
     @Override

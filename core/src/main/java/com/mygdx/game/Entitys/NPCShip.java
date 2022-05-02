@@ -1,15 +1,14 @@
 package com.mygdx.game.Entitys;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.AI.EnemyState;
-import com.mygdx.game.Components.AINavigation;
-import com.mygdx.game.Components.Pirate;
-import com.mygdx.game.Components.RigidBody;
-import com.mygdx.game.Components.Transform;
+import com.mygdx.game.Components.*;
+import com.mygdx.game.Faction;
 import com.mygdx.game.Managers.GameManager;
 import com.mygdx.game.Physics.CollisionCallBack;
 import com.mygdx.game.Physics.CollisionInfo;
@@ -17,6 +16,9 @@ import com.mygdx.utils.QueueFIFO;
 import com.mygdx.utils.Utilities;
 
 import java.util.Objects;
+import java.util.function.ToDoubleBiFunction;
+
+import static com.mygdx.utils.Constants.HALF_DIMENSIONS;
 
 /**
  * NPC ship entity class.
@@ -25,6 +27,9 @@ public class NPCShip extends Ship implements CollisionCallBack {
     public StateMachine<NPCShip, EnemyState> stateMachine;
     private static JsonValue AISettings;
     private final QueueFIFO<Vector2> path;
+
+    //Roscoe - added fire rate timer, initialised to 1 so can fire immediately
+    private float fireTimer = 1;
 
     /**
      * Creates an initial state machine
@@ -52,7 +57,6 @@ public class NPCShip extends Ship implements CollisionCallBack {
 
         // agro trigger
         rb.addTrigger(Utilities.tilesToDistance(starting.getFloat("argoRange_tiles")), "agro");
-
     }
 
     /**
@@ -71,6 +75,12 @@ public class NPCShip extends Ship implements CollisionCallBack {
     public void update() {
         super.update();
         stateMachine.update();
+        //Roscoe - added check for if npcship is alive, kills if true, and adds time to fire rate timer
+        if (!isAlive()) {
+            dead();
+        }
+        fireTimer += Gdx.graphics.getDeltaTime();
+
 
         // System.out.println(getComponent(Pirate.class).targetCount());
     }
@@ -119,6 +129,76 @@ public class NPCShip extends Ship implements CollisionCallBack {
 
     }
 
+    //Roscoe - affect associated with npcship becoming ally
+    public void dead() {
+        if (getComponent(Pirate.class).getFaction().id != 1) {
+            //sets faction variable in pirate class to desired faction
+            setFaction(1);
+
+            //set health of new npcship ally to 50
+            getComponent(Pirate.class).setHealth(50);
+
+            //sets the faction variables in faction class to desired values
+            //getComponent(Faction.class).changeFaction(getComponent(Faction.class).getName(), getComponent(Faction.class).getColour(), getComponent(Faction.class).getId());
+
+        } else if (getComponent(Pirate.class).getFaction().id == 1) {
+            removeOnDeath();
+        }
+    }
+
+    //Roscoe -- added remove method
+    public void removeOnDeath() {
+            getComponent(Renderable.class).hide();
+            Transform t = getComponent(Transform.class);
+            t.setPosition(10000, 10000);
+
+            RigidBody rb = getComponent(RigidBody.class);
+            rb.setPosition(t.getPosition());
+            rb.setVelocity(0, 0);
+
+            //Sets the ship back to alive to avoid the above being called more than once
+            getComponent(Pirate.class).resetHealth();
+            //TODO - can't remove dead ship from other ships target list, crashes
+            //removeFromTargets();
+    }
+
+    //Roscoe - remove from other ships target list
+    public void removeFromTargets() {
+        for (Ship ship : GameManager.getShipsList()) {
+            ship.getComponent(Pirate.class).getTargets().removeIf(this::equals);
+        }
+    }
+
+    //Roscoe - added damage method
+    public void cannonBallAffect(CollisionInfo info) {
+        //npcship takes x2 damage than the player
+        getComponent(Pirate.class).takeDamage(((CannonBall) info.a).getDamage() * 2);
+        GameManager.getPlayer().getComponent(Pirate.class).addPlunder(50);
+    }
+
+    //Roscoe - added fire rate method
+    private boolean setCanFire() {
+        if (fireTimer >= 1f) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Roscoe - override shoot so npcship fires in direction of first element of target list
+    @Override
+    public void shoot() {
+        if (setCanFire() && !(getComponent(Pirate.class).getTarget().getComponent(Pirate.class).getFaction().equals(getComponent(Pirate.class).getFaction()))) {
+            Vector2 delta = getComponent(Pirate.class).getTarget().getPosition();
+            delta.sub(getComponent(Transform.class).getPosition());
+            delta.nor();
+            //delta.y *= -1;
+
+            getComponent(Pirate.class).shoot(delta);
+            fireTimer = 0;
+        }
+    }
+
     @Override
     public void BeginContact(CollisionInfo info) {
 
@@ -129,6 +209,7 @@ public class NPCShip extends Ship implements CollisionCallBack {
 
     }
 
+    //Roscoe - added contact with npcship and player/npcship cannonball
     /**
      * if the agro fixture hit a ship set it as the target
      *
@@ -137,16 +218,24 @@ public class NPCShip extends Ship implements CollisionCallBack {
     @Override
     public void EnterTrigger(CollisionInfo info) {
         if (!(info.a instanceof Ship)) {
+            if (info.a instanceof CannonBall) {
+                if (!getComponent(Pirate.class).getFaction().equals(((CannonBall) info.a).getShooter().getComponent(Pirate.class).getFaction())) {
+                    cannonBallAffect(info);
+                    ((CannonBall) info.a).kill();
+                } else {
+                    //insert friendly fire stuff if needed
+                }
+            }
             return;
         }
         Ship other = (Ship) info.a;
-        if (Objects.equals(other.getComponent(Pirate.class).getFaction().getName(), getComponent(Pirate.class).getFaction().getName())) {
-            // is the same faction
-            return;
-        }
-        // add the new collision as a new target
-        Pirate pirate = getComponent(Pirate.class);
-        pirate.addTarget(other);
+        if (other instanceof Player) {
+            Pirate pirate = getComponent(Pirate.class);
+            pirate.addTarget(other);
+        } else if (info.b instanceof NPCShip && (!Objects.equals(info.b.getComponent(Pirate.class).getFaction().getName(), getComponent(Pirate.class).getFaction().getName()))) {
+            Pirate pirate = getComponent(Pirate.class);
+            pirate.addTarget((Ship) info.b);
+        } return;
     }
 
     /**

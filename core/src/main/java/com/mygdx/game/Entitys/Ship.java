@@ -156,19 +156,28 @@ public class Ship extends Entity implements CollisionCallBack {
         return getComponent(Transform.class).getPosition().cpy();
     }
 
-    //Roscoe - added contact between player and powerup
+    //Roscoe - added contact stuff
     @Override
     public void BeginContact(CollisionInfo info) {
-        if ((this instanceof Player) && (info.a instanceof PowerUp)) {
-            ((CollisionCallBack) info.a).BeginContact(info);
+
+        if (this instanceof Player) {
+            //Roscoe - checks if player collides with powerup or cannonball NOT associated with player
+            if (info.a instanceof PowerUp || (info.a instanceof CannonBall && ((CannonBall) info.a).getShooter().getComponent(Pirate.class).getFaction().id != 1)) {
+                ((CollisionCallBack) info.a).BeginContact(info);
+            }
+        }
+        else if (this instanceof NPCShip) {
+            if (info.a instanceof CannonBall) {
+                if (((CannonBall) info.a).getShooter().getComponent(Pirate.class).getFaction().id == 1) {
+                    ((CollisionCallBack) info.a).BeginContact(info);
+                }
+            }
         }
     }
 
     @Override
     public void EndContact(CollisionInfo info) {
-        if ((this instanceof Player) && (info.a instanceof PowerUp)) {
-            ((CollisionCallBack) info.a).EndContact(info);
-        }
+
     }
 
     /**

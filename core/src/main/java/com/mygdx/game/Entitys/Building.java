@@ -6,6 +6,7 @@ import com.mygdx.game.Components.Pirate;
 import com.mygdx.game.Components.Renderable;
 import com.mygdx.game.Components.RigidBody;
 import com.mygdx.game.Components.Transform;
+import com.mygdx.game.Managers.GameManager;
 import com.mygdx.game.Managers.RenderLayer;
 import com.mygdx.game.Managers.ResourceManager;
 import com.mygdx.game.Physics.CollisionCallBack;
@@ -72,6 +73,9 @@ public class Building extends Entity implements CollisionCallBack {
         Renderable r = getComponent(Renderable.class);
         r.setTexture(s);
         getComponent(Pirate.class).kill();
+
+        //Roscoe - added a plunder reward for destroying building
+        GameManager.getPlayer().getComponent(Pirate.class).addPlunder(10);
     }
 
     public boolean isAlive() {
@@ -96,14 +100,18 @@ public class Building extends Entity implements CollisionCallBack {
     @Override
     public void EnterTrigger(CollisionInfo info) {
         if (info.a instanceof CannonBall && isAlive()) {
-            CannonBall b = (CannonBall) info.a;
-            // the ball if from the same faction
+            if (!(((CannonBall) info.a).getShooter().getComponent(Pirate.class).getFaction().equals(getComponent(Pirate.class).getFaction()))) {
+                CannonBall b = (CannonBall) info.a;
+                // the ball if from the same faction
             /*if(Objects.equals(b.getShooter().getComponent(Pirate.class).getFaction().getName(),
                     getComponent(Pirate.class).getFaction().getName())) {
                 return;
             }*/
-            destroy();
-            ((CannonBall) info.a).kill();
+                destroy();
+                ((CannonBall) info.a).kill();
+            } else {
+                ((CannonBall) info.a).kill();
+            }
         }
     }
 
