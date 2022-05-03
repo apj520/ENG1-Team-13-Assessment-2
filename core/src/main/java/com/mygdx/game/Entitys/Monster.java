@@ -39,7 +39,7 @@ public class Monster extends Obstacle implements CollisionCallBack {
 
         getComponent(Renderable.class).setTexture(ResourceManager.getSprite(ResourceManager.getId("obstacles.txt"), obstacleName));
 
-        getComponent(Transform.class).setPosition(1800,600);
+        getComponent(Transform.class).setPosition(2100,1200);
 
         getComponent(Pirate.class).setHealth(obstacleSettings.getInt("health"));
 

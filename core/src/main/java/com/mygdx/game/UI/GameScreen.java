@@ -106,6 +106,8 @@ public class GameScreen extends Page {
         table.add(new Label("Shoot in direction of ship", parent.skin)).left();
         table.add(new Image(parent.skin, "space"));
         table.row();
+        table.add(new Label("Destroy all houses to kill colleges!", parent.skin)).left();
+        table.row();
         table.add(new Label("Quit", parent.skin)).left();
         table.add(new Image(parent.skin, "key-esc"));
         //Ayman - added save button

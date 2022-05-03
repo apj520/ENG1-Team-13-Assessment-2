@@ -32,13 +32,13 @@ public class MenuScreen extends Page {
         float space = VIEWPORT_HEIGHT * 0.15f;
 
         t.setBackground(new TextureRegionDrawable(ResourceManager.getTexture("menuBG.jpg")));
-        Label l = new Label("Pirates the movie the game", parent.skin);
+        Label l = new Label("The Unlucky Pirates", parent.skin);
         l.setFontScale(2);
         t.add(l).top().spaceBottom(space * 0.5f);
         t.row();
 
         //Ayman - difficulty UI selection
-        TextButton play = new TextButton("Easy", parent.skin);
+        TextButton play = new TextButton("Start Easy", parent.skin);
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -51,7 +51,7 @@ public class MenuScreen extends Page {
         t.add(play).top().size(100, 25).spaceBottom(space);
         t.row();
         //MEDIUM
-        TextButton mid = new TextButton("Medium", parent.skin);
+        TextButton mid = new TextButton("Start Medium", parent.skin);
         mid.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -64,7 +64,7 @@ public class MenuScreen extends Page {
         t.add(mid).top().size(100, 25).spaceBottom(space);
         t.row();
         //HARD
-        TextButton hard = new TextButton("Hard", parent.skin);
+        TextButton hard = new TextButton("Start Hard", parent.skin);
         hard.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -91,7 +91,7 @@ public class MenuScreen extends Page {
         t.row();
         //CHANGE END
 
-        TextButton quit = new TextButton("Quit", parent.skin);
+        TextButton quit = new TextButton("Quit Game", parent.skin);
         quit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

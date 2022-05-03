@@ -250,6 +250,11 @@ public final class GameManager {
             powerUps.add(new PowerUp(powerUpNames[i]));
             powerUps.get(i).getComponent(Transform.class).setPosition(900+(i*60),600);
         }
+        powerUps.get(2).getComponent(Transform.class).setPosition(1800,600);
+        powerUps.get(3).getComponent(Transform.class).setPosition(800,1600);
+        powerUps.get(0).getComponent(Transform.class).setPosition(2500,1800);
+        powerUps.get(1).getComponent(Transform.class).setPosition(1700,2400);
+        powerUps.get(4).getComponent(Transform.class).setPosition(2725,2925);
     }
 
     //Roscoe - added getShips method

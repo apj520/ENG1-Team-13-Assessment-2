@@ -31,6 +31,7 @@ public class PirateGame extends Game {
 
     private static int powerups_id;
     private static int obstacles_id;
+    private static int new_buildings_id;
     public static Preferences prefs;
 
     /**
@@ -64,6 +65,7 @@ public class PirateGame extends Game {
         //Roscoe - added textureAtlas for sprites
         powerups_id = ResourceManager.addTextureAtlas("powerups.txt");
         obstacles_id = ResourceManager.addTextureAtlas("obstacles.txt");
+        new_buildings_id = ResourceManager.addTextureAtlas("new_college.txt");
 
 
         ResourceManager.addTexture("menuBG.jpg");

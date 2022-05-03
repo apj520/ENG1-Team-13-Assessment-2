@@ -237,7 +237,7 @@ public class NPCShip extends Ship implements CollisionCallBack {
         if (other instanceof Player) {
             Pirate pirate = getComponent(Pirate.class);
             pirate.addTarget(other);
-        } else if (info.b instanceof NPCShip && (!Objects.equals(info.b.getComponent(Pirate.class).getFaction().getName(), getComponent(Pirate.class).getFaction().getName()))) {
+        } else if (info.b instanceof NPCShip && (info.b.getComponent(Pirate.class).getFaction().getId() == 1)) {
             Pirate pirate = getComponent(Pirate.class);
             pirate.addTarget((Ship) info.b);
         } return;

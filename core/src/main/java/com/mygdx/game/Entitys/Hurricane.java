@@ -23,7 +23,7 @@ public class Hurricane extends Obstacle implements CollisionCallBack {
 
     private static JsonValue AISettings;
     private final QueueFIFO<Vector2> path;
-    private final float damage = GameManager.getSettings().get("obstacle").getFloat("damage")/4;
+    private final float damage = GameManager.getSettings().get("obstacle").getFloat("damage");
     private float damageRate = 0;
 
 
@@ -38,7 +38,7 @@ public class Hurricane extends Obstacle implements CollisionCallBack {
 
         getComponent(Renderable.class).setTexture(ResourceManager.getSprite(ResourceManager.getId("obstacles.txt"), obstacleName));
 
-        getComponent(Transform.class).setPosition(1180,1450);
+        getComponent(Transform.class).setPosition(1000,1650);
 
         getComponent(Pirate.class).setHealth(obstacleSettings.getInt("health"));
 

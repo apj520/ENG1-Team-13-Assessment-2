@@ -21,9 +21,9 @@ public class College extends Entity {
         super();
         buildings = new ArrayList<>();
         buildingNames = new ArrayList<>();
-        buildingNames.add("big");
-        buildingNames.add("small");
-        buildingNames.add("clock");
+        buildingNames.add("High rise");
+        buildingNames.add("Guard tower");
+        buildingNames.add("High rise");
         Transform t = new Transform();
         Pirate p = new Pirate();
         addComponents(t, p);
@@ -81,6 +81,10 @@ public class College extends Entity {
         Building flag = new Building(true);
         buildings.add(flag);
         flag.create(origin, colour);
+        Vector2 origin_sign = origin.add(0, -100);
+        Building sign = new Building(true);
+        buildings.add(sign);
+        sign.create(origin_sign, colour + "-sign");
     }
 
     /**

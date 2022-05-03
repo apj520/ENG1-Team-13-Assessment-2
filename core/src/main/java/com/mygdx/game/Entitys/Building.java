@@ -29,8 +29,8 @@ public class Building extends Entity implements CollisionCallBack {
         Transform t = new Transform();
         t.setScale(BUILDING_SCALE, BUILDING_SCALE);
         Pirate p = new Pirate();
-        atlas_id = ResourceManager.getId("Buildings.txt");
-        Renderable r = new Renderable(atlas_id, "big", RenderLayer.Transparent);
+        atlas_id = ResourceManager.getId("new_college.txt");
+        Renderable r = new Renderable(atlas_id, "High rise", RenderLayer.Transparent);
         addComponents(t, p, r);
     }
 
@@ -70,7 +70,7 @@ public class Building extends Entity implements CollisionCallBack {
         if (isFlag) {
             return;
         }
-        Sprite s = ResourceManager.getSprite(atlas_id, buildingName + "-broken");
+        Sprite s = ResourceManager.getSprite(atlas_id, buildingName + "-destroyed");
         Renderable r = getComponent(Renderable.class);
         r.setTexture(s);
         getComponent(Pirate.class).kill();
