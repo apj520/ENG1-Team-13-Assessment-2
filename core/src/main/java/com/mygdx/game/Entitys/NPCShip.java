@@ -195,15 +195,17 @@ public class NPCShip extends Ship implements CollisionCallBack {
     //Roscoe - override shoot so npcship fires in direction of first element of target list
     @Override
     public void shoot() {
-        if (setCanFire() && !(getComponent(Pirate.class).getTarget().getComponent(Pirate.class).getFaction().equals(getComponent(Pirate.class).getFaction()))) {
-            Vector2 delta = getComponent(Pirate.class).getTarget().getPosition();
-            delta.sub(getComponent(Transform.class).getPosition());
-            delta.nor();
-            //delta.y *= -1;
+        if (getComponent(Pirate.class).getTarget() != null) {
+            if (setCanFire() && !(getComponent(Pirate.class).getTarget().getComponent(Pirate.class).getFaction().equals(getComponent(Pirate.class).getFaction()))) {
+                Vector2 delta = getComponent(Pirate.class).getTarget().getPosition();
+                delta.sub(getComponent(Transform.class).getPosition());
+                delta.nor();
+                //delta.y *= -1;
 
-            getComponent(Pirate.class).shoot(delta);
-            fireTimer = 0;
-        }
+                getComponent(Pirate.class).shoot(delta);
+                fireTimer = 0;
+            }
+        } else {return;}
     }
 
     @Override

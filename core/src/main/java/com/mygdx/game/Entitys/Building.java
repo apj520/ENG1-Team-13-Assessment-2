@@ -70,7 +70,13 @@ public class Building extends Entity implements CollisionCallBack {
         if (isFlag) {
             return;
         }
-        Sprite s = ResourceManager.getSprite(atlas_id, buildingName + "-destroyed");
+        Sprite s;
+        if (buildingName.contains("-sign")) {
+            s = ResourceManager.getSprite(atlas_id, "Billboard Wreck");
+        }
+        else {
+            s = ResourceManager.getSprite(atlas_id, buildingName + "-destroyed");
+        }
         Renderable r = getComponent(Renderable.class);
         r.setTexture(s);
         getComponent(Pirate.class).kill();

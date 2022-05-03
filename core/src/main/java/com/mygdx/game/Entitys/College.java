@@ -79,10 +79,12 @@ public class College extends Entity {
 
         }
         Building flag = new Building(true);
-        buildings.add(flag);
+        //flag.getComponent(Pirate.class).setFactionId(getComponent(Pirate.class).getFaction().getId());
+        //buildings.add(flag);
         flag.create(origin, colour);
         Vector2 origin_sign = origin.add(0, -100);
-        Building sign = new Building(true);
+        Building sign = new Building(false);
+        sign.getComponent(Pirate.class).setFactionId(getComponent(Pirate.class).getFaction().getId());
         buildings.add(sign);
         sign.create(origin_sign, colour + "-sign");
     }

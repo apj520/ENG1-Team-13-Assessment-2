@@ -111,9 +111,10 @@ public enum EnemyState implements State<NPCShip> {
                     m.changeState(PURSUE);
                 }
                 // if target dead
+                /**
                 else if (!p.getTarget().isAlive()) {
                     m.changeState(WANDER);
-                }
+                }**/
                 break;
         }
     }
