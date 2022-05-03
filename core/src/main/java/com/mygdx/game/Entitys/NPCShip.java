@@ -57,6 +57,7 @@ public class NPCShip extends Ship implements CollisionCallBack {
 
         // agro trigger
         rb.addTrigger(Utilities.tilesToDistance(starting.getFloat("argoRange_tiles")), "agro");
+        getComponent(Pirate.class).setHealth(100);
     }
 
     /**
@@ -177,7 +178,8 @@ public class NPCShip extends Ship implements CollisionCallBack {
     //Roscoe - added damage method
     public void cannonBallAffect(CollisionInfo info) {
         //npcship takes x2 damage than the player
-        getComponent(Pirate.class).takeDamage(((CannonBall) info.a).getDamage() * 2);
+        ((CannonBall) info.a).setDamage(GameManager.getSettings().get("starting").getFloat("npcdamage"));
+        getComponent(Pirate.class).takeDamage(((CannonBall) info.a).getDamage());
         GameManager.getPlayer().getComponent(Pirate.class).addPlunder(50);
     }
 
@@ -237,9 +239,20 @@ public class NPCShip extends Ship implements CollisionCallBack {
         if (other instanceof Player) {
             Pirate pirate = getComponent(Pirate.class);
             pirate.addTarget(other);
-        } else if (info.b instanceof NPCShip && (info.b.getComponent(Pirate.class).getFaction().getId() == 1)) {
-            Pirate pirate = getComponent(Pirate.class);
-            pirate.addTarget((Ship) info.b);
+        } else if (info.b instanceof NPCShip && info.b.getComponent(Pirate.class).getFaction().getId() != 1) {
+            if (info.a instanceof NPCShip && info.a.getComponent(Pirate.class).getFaction().getId() != 1) {
+                return;
+            } else if (info.a instanceof NPCShip && info.a.getComponent(Pirate.class).getFaction().getId() == 1) {
+                Pirate pirate = getComponent(Pirate.class);
+                pirate.addTarget((Ship) info.b);
+            }
+        } else if (info.b instanceof NPCShip && info.b.getComponent(Pirate.class).getFaction().getId() == 1) {
+            if (info.a instanceof NPCShip && info.a.getComponent(Pirate.class).getFaction().getId() != 1) {
+                Pirate pirate = getComponent(Pirate.class);
+                pirate.addTarget((Ship) info.b);
+            } else if (info.a instanceof NPCShip && info.a.getComponent(Pirate.class).getFaction().getId() == 1) {
+                return;
+            }
         } return;
     }
 

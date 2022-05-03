@@ -3,7 +3,8 @@
     "X": 25,
     "Y": 25,
     "health": 80,
-    "damage": 30.0,
+    "damage": 16.0,
+    "npcdamage": 20.0,
     "plunder": 0,
     "playerSpeed": 100.0,
     "cannonSpeed": 10000000.0,
@@ -11,7 +12,8 @@
     "attackRange_tiles": 4.0,
     "ammo": 150,
     "points": 0,
-    "time": 0.0
+    "time": 0.0,
+    "poweruptime": 30
   },
   "obstacle": {
     "health": 300,

@@ -18,6 +18,7 @@ public class PowerUp extends Entity implements CollisionCallBack {
     private String powerUpName;
     private boolean inEffect;
     private float timer;
+    private float timeAllowance;
 
     public PowerUp(String name) {
         super();
@@ -32,6 +33,7 @@ public class PowerUp extends Entity implements CollisionCallBack {
         RigidBody rb = new RigidBody(PhysicsBodyType.Dynamic,r,t);
         rb.setCallback(this);
         addComponents(t,r,rb);
+        timeAllowance = GameManager.getSettings().get("starting").getFloat("poweruptime");
     }
 
     public void powerUpAffect(String name) {
@@ -101,7 +103,7 @@ public class PowerUp extends Entity implements CollisionCallBack {
 
         if (inEffect) {
             timer += Gdx.graphics.getDeltaTime();
-            if (timer >= 30f) {
+            if (timer >= timeAllowance) {
                 restore(powerUpName);
             }
         }

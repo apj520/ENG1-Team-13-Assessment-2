@@ -53,6 +53,11 @@ public class CannonBall extends Entity implements CollisionCallBack {
         return this.damage;
     }
 
+    //Roscoe - added setDamage method for combat
+    public void setDamage(float dmg) {
+        this.damage = dmg;
+    }
+
     //Roscoe - changed if statement to actually remove cannonball when needed
     /**
      * Removes the cannonball offscreen once it hits a target.

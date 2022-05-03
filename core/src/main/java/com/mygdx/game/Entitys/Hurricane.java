@@ -59,7 +59,7 @@ public class Hurricane extends Obstacle implements CollisionCallBack {
     @Override
     public void update() {
         super.update();
-        if (damageRate >= 5f) {
+        if (damageRate >= 2.5f) {
             damageShips();
         }
         damageRate += Gdx.graphics.getDeltaTime();
