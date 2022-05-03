@@ -1,19 +1,38 @@
 {
   "starting": {
+    "X": 25,
+    "Y": 25,
     "health": 100,
-    "damage": 10.0,
+    "damage": 20.0,
     "plunder": 0,
     "playerSpeed": 100.0,
-    "cannonSpeed": 10000.0,
+    "cannonSpeed": 10000000.0,
     "argoRange_tiles": 9.0,
     "attackRange_tiles": 4.0,
-    "ammo": 50
+    "ammo": 100,
+    "points": 0,
+    "time": 0.0
+  },
+  "obstacle": {
+    "health": 200,
+    "damage": 10.0,
+    "argoRange_tiles": 18.0,
+    "attackRange_tiles": 8.0,
+    "cannonSpeed": 10000000.0,
+    "monsterSpeed": 2000.0
   },
   "AI": {
-    "maxSpeed": 500.0,
+    "maxSpeed": 1000.0,
     "accelerationTime": 0.01,
     "arrivalTolerance": 32.0,
     "slowRadius": 64.0
+  },
+  "killed": {
+    "1": "false",
+    "2": "false",
+    "3": "false",
+    "4": "false",
+    "5": "false"
   },
   "factions": [
     {

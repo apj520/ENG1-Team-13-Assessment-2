@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.Managers.ResourceManager;
 import com.mygdx.game.PirateGame;
 
+import static com.mygdx.game.PirateGame.prefs;
 import static com.mygdx.utils.Constants.VIEWPORT_HEIGHT;
 
 /**
@@ -28,7 +29,7 @@ public class MenuScreen extends Page {
         Table t = new Table();
         t.setFillParent(true);
 
-        float space = VIEWPORT_HEIGHT * 0.25f;
+        float space = VIEWPORT_HEIGHT * 0.15f;
 
         t.setBackground(new TextureRegionDrawable(ResourceManager.getTexture("menuBG.jpg")));
         Label l = new Label("Pirates the movie the game", parent.skin);
@@ -36,15 +37,59 @@ public class MenuScreen extends Page {
         t.add(l).top().spaceBottom(space * 0.5f);
         t.row();
 
-        TextButton play = new TextButton("Play", parent.skin);
+        //Ayman - difficulty UI selection
+        TextButton play = new TextButton("Easy", parent.skin);
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.setScreen(parent.game);
+                //set difficulty to easy
+                prefs.putString("difficulty", "GameSettingsEasy.json");
+               System.out.println(prefs.getString("difficulty"));
+                parent.startGame(parent.id_map);
             }
         });
         t.add(play).top().size(100, 25).spaceBottom(space);
         t.row();
+        //MEDIUM
+        TextButton mid = new TextButton("Medium", parent.skin);
+        mid.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                //set difficulty to medium
+                prefs.putString("difficulty", "GameSettingsMedium.json");
+                System.out.println(prefs.getString("difficulty"));
+                parent.startGame(parent.id_map);
+            }
+        });
+        t.add(mid).top().size(100, 25).spaceBottom(space);
+        t.row();
+        //HARD
+        TextButton hard = new TextButton("Hard", parent.skin);
+        hard.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                //set difficulty to hard
+                prefs.putString("difficulty", "GameSettingsHard.json");
+                System.out.println(prefs.getString("difficulty"));
+                parent.startGame(parent.id_map);
+            }
+        });
+        t.add(hard).top().size(100, 25).spaceBottom(space);
+        t.row();
+        //Ayman - Load save file
+        TextButton contd = new TextButton("Continue", parent.skin);
+        contd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("load save");
+                prefs.putString("difficulty", "GameSettingsSaved.json");
+                System.out.println(prefs.getString("difficulty"));
+                parent.startGame(parent.id_map);
+            }
+        });
+        t.add(contd).top().size(100, 25).spaceBottom(space);
+        t.row();
+        //CHANGE END
 
         TextButton quit = new TextButton("Quit", parent.skin);
         quit.addListener(new ChangeListener() {

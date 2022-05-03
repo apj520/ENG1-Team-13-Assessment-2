@@ -4,9 +4,9 @@ de/tomgrill/gdxtesting/examples/UnitTestExample.java
  de.tomgrill.gdxtesting.examples.UnitTestExample
 de/tomgrill/gdxtesting/Utils/QueueFIFOTest.java
  de.tomgrill.gdxtesting.Utils.QueueFIFOTest
-de/tomgrill/gdxtesting/Ship/ShipTests.java
- de.tomgrill.gdxtesting.Ship.ShipTests
 de/tomgrill/gdxtesting/Utils/AssetsTest.java
  de.tomgrill.gdxtesting.Utils.AssetsTest
+de/tomgrill/gdxtesting/Ship/ShipTests.java
+ de.tomgrill.gdxtesting.Ship.ShipTests
 de/tomgrill/gdxtesting/CollegeTests.java
  de.tomgrill.gdxtesting.CollegeTests

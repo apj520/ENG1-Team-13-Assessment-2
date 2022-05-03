@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.mygdx.game.Components.Pirate;
 import com.mygdx.game.Entitys.Player;
 import com.mygdx.game.Managers.GameManager;
 import com.mygdx.game.Managers.ResourceManager;
@@ -60,20 +61,20 @@ public class EndScreen extends Page {
                 System.exit(0);
             }
         });
-        t.add(b);
-        //AYMAN CODE:ADDED RESTART BUTTEN NEEDS IMPLEMENTATION:
+        t.add(b).size(100, 25).top().spaceBottom(space* 0.5f);
+        //Ayman - restart button
         t.row();
         TextButton r = new TextButton("Restart", parent.skin);
         r.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println("Restart");
-                //reset all entities:
-                //parent.setScreen(parent.game);
+                //Ayman - restart game
+                GameManager.restartGame();
+                parent.setScreen(parent.game);
             }
         });
         t.add(r);
-        //CHANGE END
     }
 
     @Override
@@ -93,8 +94,24 @@ public class EndScreen extends Page {
     public void show() {
         super.show();
         Player p = GameManager.getPlayer();
-        String stats = String.format("Health: %s\nAmmo: %s\nPlunder: %s", p.getHealth(), p.getAmmo(), p.getPlunder());
+        //Ayman - added display of points and time
+        int time = (int) (GameManager.getPlayer().getComponent(Pirate.class).getTime());
+        int totalPoint = (p.getComponent(Pirate.class).getPoints()) - (time/2);
+        int p1 = time % 60;
+        int p2 = time / 60;
+        int p3 = p2 % 60;
+        p2 = p2 / 60;
+        String stats = String.format("Health: %s\nAmmo: %s\nPlunder: %s\nPoints: %s\nTime: %s", p.getHealth(), p.getAmmo(), p.getPlunder(),fixPoint(totalPoint), p2 + ":" + p3 + ":" + p1);
         playerStats.setText(stats);
+    }
+
+    //Ayman - function to ensure positive points always:
+    public int fixPoint(int p) {
+        if (p <= 0) {
+            return 0;
+        } else {
+            return p;
+        }
     }
 
     @Override

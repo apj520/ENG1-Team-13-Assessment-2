@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -23,13 +24,14 @@ public class PirateGame extends Game {
     public Stage stage;
     public Skin skin;
     private static int id_ship;
-    private static int id_map;
+    public static int id_map;
     private static int atlas_id;
     private static int extras_id;
     private static int buildings_id;
 
     private static int powerups_id;
     private static int obstacles_id;
+    public static Preferences prefs;
 
     /**
      * Create instances of game stage and UI screens.
@@ -45,9 +47,11 @@ public class PirateGame extends Game {
         createSkin();
         menu = new MenuScreen(this);
         PhysicsManager.Initialize();
-        GameManager.Initialize();
-        game = new GameScreen(this, id_map);
+        //GameManager.Initialize();
+        //game = new GameScreen(this, id_map);
         end = new EndScreen(this);
+        //Ayman - difficulty preference
+        prefs = Gdx.app.getPreferences("PirateGame");
         setScreen(menu);
     }
     public static void loadResources(){
@@ -68,6 +72,13 @@ public class PirateGame extends Game {
 
 
     }
+
+    //Ayman - added startGame function to manage difficulty
+    public void startGame(int id) {
+        game = new GameScreen(this, id);
+        setScreen(game);
+    }
+
     /**
      * Clean up prevent memory leeks
      */

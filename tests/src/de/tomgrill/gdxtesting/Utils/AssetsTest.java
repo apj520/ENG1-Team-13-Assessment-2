@@ -50,7 +50,11 @@ public class AssetsTest {
 
     @Test
     public void GameSettingsJSONAsset() {
-        assertTrue("GameSettings.json is Missing", Gdx.files.internal("GameSettings.json").exists());
+        assertTrue("GameSettingsEasy.json is Missing", Gdx.files.internal("GameSettingsEasy.json").exists());
+        assertTrue("GameSettingsMedium.json is Missing", Gdx.files.internal("GameSettingsMedium.json").exists());
+        assertTrue("GameSettingsHard.json is Missing", Gdx.files.internal("GameSettingsHard.json").exists());
+        assertTrue("GameSettingsSaved.json is Missing", Gdx.files.internal("GameSettingsHard.json").exists());
+
     }
 
     @Test

@@ -20,7 +20,9 @@ public class Pirate extends Component {
     private int health;
     private int ammo;
     private final int attackDmg;
-
+    //Ayman - added point and timer
+    private int points;
+    private float timer;
     //Roscoe - added flags for immunity and double fire power-ups, added double plunder flag
     private boolean isImmune;
     private boolean doubleFire;
@@ -42,7 +44,9 @@ public class Pirate extends Component {
         health = starting.getInt("health");
         attackDmg = starting.getInt("damage");
         ammo = starting.getInt("ammo");
-
+        //Ayman - initialized points and timer
+        points = starting.getInt("points");
+        timer = starting.getFloat("time");
         //Roscoe - initialised power-up flags
         isImmune = false;
         doubleFire = false;
@@ -65,7 +69,7 @@ public class Pirate extends Component {
         }
     }
 
-    //AYMAN ADD FUNCTIONALITY FOR ARMOR + AMMO UPDRADE:
+    //Ayman - added functionality for shop
     public void addArmor(int armor) {
         health += armor;
     }
@@ -73,7 +77,23 @@ public class Pirate extends Component {
         ammo += bullets;
     }
     //END
+    //Ayman - added restart setters
+    public void resetHealth(int newHealth) {this.health = newHealth;}
+    public void resetPlunder(int newPlunder) {this.plunder = newPlunder;}
 
+    //Ayman - added setters and getters to facilitate point/timer system
+    public int getPoints() {return points;}
+    public void setPoints(int newPoints) {this.points = newPoints;}
+    public void addPoints(int point) {
+        this.points += point;
+    }
+    public float getTime() {
+        return timer;
+    }
+    public void setTime(float time) {
+        this.timer = time;
+    }
+    public void addTime(float time) {this.timer += time;}
 
     public void switchDP() {
         if (dpFlag) {

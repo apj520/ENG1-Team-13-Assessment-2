@@ -11,7 +11,8 @@ import com.mygdx.game.Entitys.*;
 import com.mygdx.game.Faction;
 import com.mygdx.utils.QueueFIFO;
 import com.mygdx.utils.Utilities;
-
+import static com.mygdx.game.PirateGame.prefs;
+import com.mygdx.game.Components.Pirate;
 import java.util.ArrayList;//
 import java.util.List;
 //TODO tryinit has been commented out
@@ -44,11 +45,11 @@ public final class GameManager {
     /**
      * facilitates creation of the game
      */
-    public static void Initialize() {
+    public static void Initialize(String difficulty) {
         initialized = true;
         currentElement = 0;
         settings = new JsonReader().
-                parse(Gdx.files.internal("GameSettings.json"));
+                parse(Gdx.files.internal(difficulty));
 
         factions = new ArrayList<>();
         ships = new ArrayList<>();
@@ -79,6 +80,41 @@ public final class GameManager {
             spawn = Utilities.tilesToDistance(spawn);
             factions.add(new Faction(name, col, pos, spawn, factions.size() + 1));
         }
+    }
+
+    //Ayman - getters for saving
+    public static Ship getShips(int n) {return  ships.get(n);}
+
+    public static ArrayList getShip() {
+        return  ships;
+    }
+
+    //Ayman - added restartGame function which resets game when called
+    public static void restartGame() {
+        JsonValue starting = getSettings().get("starting");
+        JsonValue factions = getSettings().get("factions");
+        //reset player starting stats
+        getPlayer().getComponent(Pirate.class).setAmmo(starting.getInt("ammo"));
+        getPlayer().getComponent(Pirate.class).resetHealth(starting.getInt("health"));
+        getPlayer().getComponent(Pirate.class).resetPlunder(0);
+        getPlayer().getComponent(Pirate.class).setPoints(0);
+        getPlayer().getComponent(Pirate.class).setTime(0);
+        //forloop to reset ship spawn pos and health
+        //NEED TO RESET SHIP STATUS AFTER ROSCOE ADDS CODE
+        for (int i = 0; i < (GameManager.getShip()).size(); i++) {
+            GameManager.getShips(i).getComponent(Pirate.class).setHealth(100);
+            if (i >=0 && i <=2) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(1).getSpawnPos());}
+            if (i >=3 && i <=5) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(2).getSpawnPos());}
+            if (i >=6 && i <=8) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(3).getSpawnPos());}
+            if (i >=9 && i <=11) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(4).getSpawnPos());}
+            if (i >=12 && i <=14) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(5).getSpawnPos());}
+        }
+        getPlayer().getComponent(Transform.class).setPosition(800, 800); //player has to be repositioned after all the ships are spawned as unsure which ship index player is
+        //Ayman - destroy cannons
+        //works but player ends up woth infinite ammo (maintains functionality tho)
+        //for (CannonBall canon: ballCache) {
+        //    canon.kill();
+        //}
     }
 
     /**
@@ -120,6 +156,21 @@ public final class GameManager {
                     NPCShip s = CreateNPCShip(i + 1);
                     s.getComponent(Transform.class).setPosition(getFaction(i + 1).getSpawnPos());
                 }
+            }
+        }
+
+        //Ayman - kill marked colleges in save file
+        for (College c: colleges) {
+            int id = c.getComponent(Pirate.class).getFaction().id;
+            String fac = Integer.toString(id);
+            if (settings.get("killed").getString(fac).isEmpty() && id!=1) {
+                getCollege(id).getComponent(Pirate.class).kill(); //isAlive is false and health is 0
+                for (int i = 0; i < getCollege(id).getAllBuilding().size()-1 ; i++){
+                    getCollege(id).getBuilding(i).destroy();
+                }
+                System.out.println("College killed"+fac);
+            } else {
+                System.out.println("College is alive"+fac);
             }
         }
     }
@@ -195,7 +246,6 @@ public final class GameManager {
     }
 
     //Roscoe - added getShips method
-
     public static ArrayList<Ship> getShipsList() {
         return ships;
     }
@@ -208,7 +258,7 @@ public final class GameManager {
 
     private static void tryInit() {
         if (!initialized) {
-            Initialize();
+            Initialize(prefs.getString("difficulty"));
         }
     }
 
@@ -223,6 +273,7 @@ public final class GameManager {
      * @return the JSON representation fo settings
      */
     public static JsonValue getSettings() {
+        //do not comment out tryInit() here:
         tryInit();
         return settings;
     }

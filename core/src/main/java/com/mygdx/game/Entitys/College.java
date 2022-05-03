@@ -97,9 +97,17 @@ public class College extends Entity {
         if (!res) {
             getComponent(Pirate.class).kill();
             //Roscoe - added plunder reward for killing college
-            GameManager.getPlayer().getComponent(Pirate.class).addPlunder(100);
+            //Ayman - commented out: Plunder increments infinitely when college is killed
+            //will rely on getting plunder from quest completion for killing colleges instead
+            //GameManager.getPlayer().getComponent(Pirate.class).addPlunder(100);
         }
     }
+
+    //Ayman - added getters to facilitate saving building states
+    public Building getBuilding(int i) {
+        return buildings.get(i);
+    }
+    public ArrayList getAllBuilding() {return buildings;}
 
     @Override
     public void update() {
