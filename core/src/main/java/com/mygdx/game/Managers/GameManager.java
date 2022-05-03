@@ -40,6 +40,7 @@ public final class GameManager {
     private static ArrayList<Obstacle> obstacles;
     private static ArrayList<MonsterBall> monsterBallCache;
     private static final int monsterCacheSize = 20;
+    private static int currentElementM;
 
     /**
      * facilitates creation of the game
@@ -47,6 +48,8 @@ public final class GameManager {
     public static void Initialize() {
         initialized = true;
         currentElement = 0;
+        //Roscoe added current Element for monsterBall
+        currentElementM = 0;
         settings = new JsonReader().
                 parse(Gdx.files.internal("GameSettings.json"));
 
@@ -243,11 +246,12 @@ public final class GameManager {
         //pos.add(dir.x * TILE_SIZE * 0.5f, dir.y * TILE_SIZE * 0.5f);
         if (p instanceof Ship) {
             ballCache.get(currentElement++).fire(pos, dir, (Ship) p);
+            currentElement %= cacheSize;
         }
         else if (p instanceof Monster) {
-            monsterBallCache.get(currentElement++).fire(pos, dir, (Monster) p);
+            monsterBallCache.get(currentElementM++).fire(pos, dir, (Monster) p);
+            currentElementM %= monsterCacheSize;
         }
-        currentElement %= cacheSize;
     }
 
     /**
