@@ -107,7 +107,7 @@ public final class GameManager {
         CreatePlayer();
         CreatePowerUps();
         CreateMonsters();
-        //CreateHurricane();
+        CreateHurricane();
         final int cnt = settings.get("factionDefaults").getInt("shipCount");
         for (int i = 0; i < factions.size(); i++) {
             CreateCollege(i + 1);
@@ -122,6 +122,12 @@ public final class GameManager {
                 }
             }
         }
+    }
+
+    //Roscoe - added hurricane creation method
+    private static void CreateHurricane() {
+        Hurricane h = new Hurricane();
+        obstacles.add(h);
     }
 
     /**
@@ -193,6 +199,8 @@ public final class GameManager {
     public static ArrayList<Ship> getShipsList() {
         return ships;
     }
+
+    //Roscoe - added monster creation method
     public static void CreateMonsters() {
         Monster m = new Monster();
         obstacles.add(m);

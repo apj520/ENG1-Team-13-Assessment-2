@@ -44,7 +44,6 @@ public class Obstacle extends Entity implements CollisionCallBack {
         isActive = true;
     }
 
-    //TODO - set specific attack ranges for instances
     public static float getAttackRange() {
         return Utilities.tilesToDistance(GameManager.getSettings().get("starting").getFloat("attackRange_tiles"));
     }
