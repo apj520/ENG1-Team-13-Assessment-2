@@ -1,0 +1,26 @@
+obstacles.png
+size: 120, 197
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Monster_Ball_MK1
+  rotate: false
+  xy: 0, 0
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+Monster_MK1
+  rotate: false
+  xy: 18, 0
+  size: 90, 83
+  orig: 90, 83
+  offset: 0, 0
+  index: -1
+Tornado
+  rotate: false
+  xy: 0, 83
+  size: 120, 114
+  orig: 120, 114
+  offset: 0, 0
+  index: -1

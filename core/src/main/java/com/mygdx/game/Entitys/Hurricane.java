@@ -38,7 +38,7 @@ public class Hurricane extends Obstacle implements CollisionCallBack {
 
         getComponent(Renderable.class).setTexture(ResourceManager.getSprite(ResourceManager.getId("obstacles.txt"), obstacleName));
 
-        getComponent(Transform.class).setPosition(1000,1600);
+        getComponent(Transform.class).setPosition(1180,1450);
 
         getComponent(Pirate.class).setHealth(obstacleSettings.getInt("health"));
 
@@ -70,6 +70,8 @@ public class Hurricane extends Obstacle implements CollisionCallBack {
         for (Ship ship : GameManager.getShipsList()) {
             if (isAgro(ship)) {
                 ship.getComponent(Pirate.class).takeDamage(getDamage());
+                //Ayman - implemented point increment when encountering player
+                GameManager.getPlayer().getComponent(Pirate.class).addPoints(500);
                 damageRate = 0;
             }
         }

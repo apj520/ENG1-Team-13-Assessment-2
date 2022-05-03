@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.tomgrill.gdxtesting.Utils.AssetsTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-05-03T03:43:26" hostname="AYMANASUS" time="0.023">
+  <properties/>
+  <testcase name="GameSettingsJSONAsset" classname="de.tomgrill.gdxtesting.Utils.AssetsTest" time="0.023"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
