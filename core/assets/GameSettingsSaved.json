@@ -1,17 +1,17 @@
 {
 "starting": {
-	"X": 61.00897,
-	"Y": 57.75365,
-	"health": 80,
+	"X": 50.99939,
+	"Y": 30.034908,
+	"health": 500,
 	"damage": 10,
-	"plunder": 100,
+	"plunder": 20,
 	"playerSpeed": 100,
 	"cannonSpeed": 10000,
 	"argoRange_tiles": 9,
 	"attackRange_tiles": 4,
-	"ammo": 89,
+	"ammo": 92,
 	"points": 0,
-	"time": 63.427254
+	"time": 26.23222
 },
 "obstacle": {
 	"health": 200,
@@ -29,7 +29,7 @@
 },
 "killed": {
 	"1": "false",
-	"2": "",
+	"2": "false",
 	"3": "false",
 	"4": "false",
 	"5": "false"
@@ -43,8 +43,8 @@
 			"y": 35
 		},
 		"shipSpawn": {
-			"x": 19,
-			"y": 33.49317
+			"x": 19.48719,
+			"y": 32.625923
 		}
 	},
 	{
@@ -55,8 +55,8 @@
 			"y": 51
 		},
 		"shipSpawn": {
-			"x": 65.28904,
-			"y": 47.839123
+			"x": 53,
+			"y": 44.624424
 		}
 	},
 	{

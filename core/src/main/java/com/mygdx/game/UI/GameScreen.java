@@ -157,7 +157,7 @@ public class GameScreen extends Page {
 
         //WEAPON:
         //add labels
-        shopWeapon = new Label("Weapon $200", parent.skin);
+        shopWeapon = new Label("Ammo $100", parent.skin);
         shopTable.add(shopWeapon).top().left();
         //add buttons to table
         //add functions to add shop items to player??
@@ -286,7 +286,7 @@ public class GameScreen extends Page {
 
         //AYMAN CHANGE: SHOP UI UPDATE:
         //UNLOCK SHOP ITEMS BUTTONS:
-        if ((p.getComponent(Pirate.class).getPlunder() >= 10)) {
+        if ((p.getComponent(Pirate.class).getPlunder() >= 100)) {
             buyArmor.setDisabled(false);
             buyWeapon.setDisabled(false);
             buyArmor.setText("Buy");
@@ -298,26 +298,26 @@ public class GameScreen extends Page {
 
             //UPGRADE FOR MORE HEALTH (DON'T WANT TO TINKER WITH NEW ARMOR CLASS SO JUST INCREASING HEALTH)?
             if (buyArmor.getClickListener().getTapCount() > 0 && !buyArmor.isDisabled()){
-                p.getComponent(Pirate.class).addPlunder(-10);
-                p.getComponent(Pirate.class).addArmor(100);
+                p.getComponent(Pirate.class).addPlunder(-100);
+                p.getComponent(Pirate.class).addArmor(200);
                 //increase health
                 //buyArmor.setText("Bought");
                 //System.out.println("update armor");
                 buyArmor.getClickListener().setTapCount(0);
                 buyArmor.setDisabled(true);
-                buyArmor.removeListener(buyArmor.getClickListener());
+                //buyArmor.removeListener(buyArmor.getClickListener());
             }
             //UPGRADE FOR MORE AMMO: ?
             if (buyWeapon.getClickListener().getTapCount() > 0 && !buyWeapon.isDisabled()){
-                p.getComponent(Pirate.class).addPlunder(-20);
-                p.getComponent(Pirate.class).addAmmo(40);
+                p.getComponent(Pirate.class).addPlunder(-100);
+                p.getComponent(Pirate.class).addAmmo(100);
                 //p.getComponent(PlayerController.class).incSpeed(500);
                 //increase ammo
                 //buyWeapon.setText("Bought");
                 //System.out.println("update weapon");
                 buyWeapon.getClickListener().setTapCount(0);
                 buyWeapon.setDisabled(true);
-                buyWeapon.removeListener(buyWeapon.getClickListener());
+                //buyWeapon.removeListener(buyWeapon.getClickListener());
             }
         }
 
