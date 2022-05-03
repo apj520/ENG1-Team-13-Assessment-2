@@ -104,13 +104,17 @@ public final class GameManager {
         getPlayer().getComponent(Pirate.class).setTime(0);
         //forloop to reset ship spawn pos and health
         //NEED TO RESET SHIP STATUS AFTER ROSCOE ADDS CODE
-        for (int i = 0; i < (GameManager.getShip()).size(); i++) {
+      for (int i = 0; i < (GameManager.getShip()).size(); i++) {
             GameManager.getShips(i).getComponent(Pirate.class).setHealth(100);
             if (i >=0 && i <=2) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(1).getSpawnPos());}
-            if (i >=3 && i <=5) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(2).getSpawnPos());}
-            if (i >=6 && i <=8) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(3).getSpawnPos());}
-            if (i >=9 && i <=11) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(4).getSpawnPos());}
-            if (i >=12 && i <=14) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(5).getSpawnPos());}
+            if (i >=3 && i <=5) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(2).getSpawnPos());
+                GameManager.getShips(i).setFaction(2);}
+            if (i >=6 && i <=8) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(3).getSpawnPos());
+                GameManager.getShips(i).setFaction(3);}
+            if (i >=9 && i <=11) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(4).getSpawnPos());
+                GameManager.getShips(i).setFaction(4);}
+            if (i >=12 && i <=14) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(5).getSpawnPos());
+                GameManager.getShips(i).setFaction(5);}
         }
         getPlayer().getComponent(Transform.class).setPosition(800, 800); //player has to be repositioned after all the ships are spawned as unsure which ship index player is
         //Ayman - destroy cannons
