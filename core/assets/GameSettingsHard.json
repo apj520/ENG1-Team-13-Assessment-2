@@ -9,7 +9,7 @@
     "cannonSpeed": 10000000.0,
     "argoRange_tiles": 9.0,
     "attackRange_tiles": 4.0,
-    "ammo": 80,
+    "ammo": 100,
     "points": 0,
     "time": 0.0
   },
