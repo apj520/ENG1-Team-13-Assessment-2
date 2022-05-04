@@ -9,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.Components.ComponentEvent;
 import com.mygdx.game.Components.Pirate;
+import com.mygdx.game.Entitys.Entity;
 import com.mygdx.game.Entitys.Player;
+import com.mygdx.game.Entitys.PowerUp;
 import com.mygdx.game.Managers.*;
 import com.mygdx.game.PirateGame;
 import com.mygdx.game.Quests.Quest;
@@ -379,15 +381,17 @@ public class GameScreen extends Page {
         starting.writeValue("X",GameManager.getShips(0).getPosition().x / 32);
         starting.writeValue("Y",GameManager.getShips(0).getPosition().y / 32);
         starting.writeValue("health", GameManager.getPlayer().getHealth());
-        starting.writeValue("damage",10.0);
+        starting.writeValue("damage",GameManager.getPlayer().getComponent(Pirate.class).getDamage());//DONE
+        starting.writeValue("npcdamage",GameManager.getSettings().get("starting").getFloat("npcdamage"));//DONE
         starting.writeValue("plunder", GameManager.getPlayer().getPlunder());
-        starting.writeValue("playerSpeed",100.0); //need getter
+        starting.writeValue("playerSpeed",10000000.0);
         starting.writeValue("cannonSpeed", 10000.0);
         starting.writeValue("argoRange_tiles",9.0);
         starting.writeValue("attackRange_tiles", 4.0);
         starting.writeValue("ammo",GameManager.getPlayer().getAmmo());
         starting.writeValue("points",GameManager.getPlayer().getComponent(Pirate.class).getPoints());
         starting.writeValue("time",GameManager.getPlayer().getComponent(Pirate.class).getTime());
+        starting.writeValue("poweruptime", GameManager.getPowerUp().getPowerUpTime()); //DONE
         starting.writeObjectEnd();
 
         //OBSTACLE/MONSTER
@@ -395,8 +399,8 @@ public class GameScreen extends Page {
         obstacle.setOutputType(JsonWriter.OutputType.json);
         obstacle.setWriter(writer);
         obstacle.writeObjectStart("obstacle");
-        obstacle.writeValue("health", 200);
-        obstacle.writeValue("damage",10.0);
+        obstacle.writeValue("health", 200);//getter for this
+        obstacle.writeValue("damage",10.0);//getter for this or set all values unchanged
         obstacle.writeValue("argoRange_tiles", 18.0);
         obstacle.writeValue("attackRange_tiles", 8.0);
         obstacle.writeValue("cannonSpeed",10000000.0);

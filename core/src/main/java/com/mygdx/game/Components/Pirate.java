@@ -76,7 +76,8 @@ public class Pirate extends Component {
     public void addAmmo(int bullets) {
         ammo += bullets;
     }
-    //END
+    //Ayman - added getter for player damage:
+    public int getDamage() {return attackDmg;}
     //Ayman - added restart setters
     public void resetHealth(int newHealth) {this.health = newHealth;}
     public void resetPlunder(int newPlunder) {this.plunder = newPlunder;}
@@ -94,6 +95,9 @@ public class Pirate extends Component {
         this.timer = time;
     }
     public void addTime(float time) {this.timer += time;}
+
+    //Ayman - added setter to revert isAlive
+    public void changeAlive() {this.isAlive = true;}
 
     public void switchDP() {
         if (dpFlag) {

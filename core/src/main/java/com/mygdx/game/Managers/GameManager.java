@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.AI.TileMapGraph;
 import com.mygdx.game.Components.Pirate;
+import com.mygdx.game.Components.Renderable;
 import com.mygdx.game.Components.Transform;
 import com.mygdx.game.Entitys.*;
 import com.mygdx.game.Faction;
@@ -102,10 +103,13 @@ public final class GameManager {
         getPlayer().getComponent(Pirate.class).resetPlunder(0);
         getPlayer().getComponent(Pirate.class).setPoints(0);
         getPlayer().getComponent(Pirate.class).setTime(0);
-        //forloop to reset ship spawn pos and health
-        //NEED TO RESET SHIP STATUS AFTER ROSCOE ADDS CODE
+
       for (int i = 0; i < (GameManager.getShip()).size(); i++) {
+            //revive killed ships
+            GameManager.getShips(i).getComponent(Pirate.class).changeAlive();
             GameManager.getShips(i).getComponent(Pirate.class).setHealth(100);
+            GameManager.getShips(i).getComponent(Renderable.class).show();
+            //reset positions and factions
             if (i >=0 && i <=2) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(1).getSpawnPos());}
             if (i >=3 && i <=5) {GameManager.getShips(i).getComponent(Transform.class).setPosition(getFaction(2).getSpawnPos());
                 GameManager.getShips(i).setFaction(2);}
@@ -267,6 +271,9 @@ public final class GameManager {
         Monster m = new Monster();
         obstacles.add(m);
     }
+
+    //Ayman - added getPowerUp method
+    public  static PowerUp getPowerUp() {return powerUps.get(1);}
 
     private static void tryInit() {
         if (!initialized) {

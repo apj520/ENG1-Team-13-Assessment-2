@@ -16,8 +16,8 @@
     "poweruptime": 50
   },
   "obstacle": {
-    "health": 200,
-    "damage": 10.0,
+    "health": 500,
+    "damage": 20.0,
     "argoRange_tiles": 18.0,
     "attackRange_tiles": 8.0,
     "cannonSpeed": 10000000.0,

@@ -36,6 +36,9 @@ public class PowerUp extends Entity implements CollisionCallBack {
         timeAllowance = GameManager.getSettings().get("starting").getFloat("poweruptime");
     }
 
+    //Ayman - added getter to get powerUp time:
+    public float getPowerUpTime() {return timeAllowance;}
+
     public void powerUpAffect(String name) {
         timer = 0;
         inEffect = true;
@@ -45,7 +48,8 @@ public class PowerUp extends Entity implements CollisionCallBack {
         } else if (name == "FFR_bubble") {
             GameManager.getPlayer().getComponent(Pirate.class).switchDF();
         } else if (name == "health_regen") {
-            GameManager.getPlayer().getComponent(Pirate.class).resetHealth();
+            //this was originally resetting health to 100 so changed to add 100
+            GameManager.getPlayer().getComponent(Pirate.class).addArmor(200);
         } else if (name == "immunity") {
             GameManager.getPlayer().getComponent(Pirate.class).switchImmune();
         } else if (name == "speed") {
