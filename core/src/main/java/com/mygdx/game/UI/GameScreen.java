@@ -384,8 +384,8 @@ public class GameScreen extends Page {
         starting.writeValue("damage",GameManager.getPlayer().getComponent(Pirate.class).getDamage());//DONE
         starting.writeValue("npcdamage",GameManager.getSettings().get("starting").getFloat("npcdamage"));//DONE
         starting.writeValue("plunder", GameManager.getPlayer().getPlunder());
-        starting.writeValue("playerSpeed",10000000.0);
-        starting.writeValue("cannonSpeed", 10000.0);
+        starting.writeValue("playerSpeed", 100.0);
+        starting.writeValue("cannonSpeed", 10000000.0);
         starting.writeValue("argoRange_tiles",9.0);
         starting.writeValue("attackRange_tiles", 4.0);
         starting.writeValue("ammo",GameManager.getPlayer().getAmmo());
